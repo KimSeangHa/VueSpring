@@ -1,11 +1,26 @@
 <template>
   <div id="app">
     <div id="nav">
+      <Header />
     </div>
     <router-view/>
+    <div id="footer">
+      <Footer />
+    </div>
   </div>
 </template>
 
+<script>
+import Header from '@/components/Layout/Header.vue'
+import Footer from '@/components/Layout/Footer.vue'
+
+export default {
+  components: {
+    Header,
+    Footer
+  }
+}
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -27,4 +42,3 @@
 #nav a.router-link-exact-active {
   color: #42b983;
 }
-</style>
