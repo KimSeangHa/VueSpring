@@ -8,4 +8,10 @@
 		SELECT *
 		  FROM test;
  	</select>
+ 	
+	<insert id="insertMemo" parameterType="com.spring.webservice.vo.testVO">
+		INSERT
+		    INTO memo (title, content)
+		    VALUES (#{title}, #{content})
+	</insert>
  </mapper>

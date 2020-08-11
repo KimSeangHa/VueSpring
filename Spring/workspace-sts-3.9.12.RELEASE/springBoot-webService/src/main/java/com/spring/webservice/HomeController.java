@@ -13,9 +13,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.webservice.vo.memoVO;
 import com.spring.webservice.vo.testVO;
 
 /**
@@ -53,5 +55,27 @@ public class HomeController {
 		List<testVO> testSelect = sqlSession.selectList("test.selectTest");
 			
 		return testSelect;
+	}
+	
+	@CrossOrigin(origins = "http://localhost:3000")
+	@RequestMapping(value = "/InsertMemo", method = RequestMethod.GET)
+	@ResponseBody
+	public String InsertMemo(@RequestParam String title, @RequestParam String content ) {
+		System.out.println(title);
+		System.out.println(content);
+		System.out.println("#### DB GOGO");
+		
+		testVO tvo = new testVO();
+		
+		tvo.setTitle(title);
+		tvo.setContent(content);
+		
+		int result = sqlSession.insert("test.insertMemo", tvo);
+		
+		if (result > 0) {
+			return "1";
+		} else {
+			return "0";
+		}
 	}
 }

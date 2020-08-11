@@ -13,7 +13,7 @@
 		<item key="create_package_info_java" value="false"/>
 	</section>
 	<section name="RefactoringWizard.preview">
-		<item key="width" value="600"/>
+		<item key="width" value="648"/>
 		<item key="height" value="400"/>
 	</section>
 	<section name="org.eclipse.ltk.ui.refactoring.settings">
@@ -21,6 +21,8 @@
 		<item key="updateTextualMatches" value="false"/>
 		<item key="updateQualifiedNames" value="false"/>
 		<item key="patterns" value="*"/>
+		<item key="updateSimilarElements" value="false"/>
+		<item key="updateSimilarElementsMatchStrategy" value="1"/>
 	</section>
 	<section name="OptionalMessageDialog.hide.">
 		<item key="org.eclipse.jdt.ui.typecomment.deprecated" value="true"/>
@@ -30,6 +32,8 @@
 		<item key="create_unimplemented" value="true"/>
 	</section>
 	<section name="completion_proposal_size">
+		<item key="size.x" value="652"/>
+		<item key="size.y" value="384"/>
 	</section>
 	<section name="quick_assist_proposal_size">
 	</section>
