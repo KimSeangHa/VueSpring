@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import test from '@/store/modules/test'
+import memo from '@/store/modules/memo'
 
 Vue.use(Vuex)
 
@@ -48,6 +49,7 @@ export default new Vuex.Store({
    * 모듈 관리 영역
    */
   modules: {
-    test
+    test,
+    memo
   }
 })

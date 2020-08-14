@@ -2,9 +2,7 @@
     <div class="header-wrap">
         <div class="header-form">
             <ul>
-                <li><router-link to="/">Neto App</router-link></li>
-                <li>버스 사이트</li>
-                <li>ㅇㅁㄴㅇㄻㄴㅇ</li>
+                <li><router-link to="/MemoApp">Memo App</router-link></li>
             </ul>
         </div>
     </div>
@@ -38,12 +36,13 @@ export default {
     float: left;                
     line-height: 50px;          
     vertical-align: middle;     
-    text-align: center; 
-    width: 150px;    
+    text-align: left; 
+    width: 120px;    
     height: 50px;    
     font-size: 14px;                          
     margin-top:20px;  
     cursor: pointer;  
+    border: none;
 }
 
 .header-form ul li:hover{         
@@ -51,6 +50,12 @@ export default {
 }
 
 li a {
+    text-decoration: none;
+    color: #fff;
+}
+
+li a:hover {
+    color: red;
     text-decoration: none;
 }
 </style>

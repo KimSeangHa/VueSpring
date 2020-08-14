@@ -27,6 +27,11 @@ Vue.use(VueRouter)
     path: '/vuex',
     name: 'Vuex',
     component: () => import('@/views/VuexTest.vue')
+  },
+  {
+    path: '/MemoApp',
+    name: 'MemoApp',
+    component: () => import('@/views/MemoApp.vue')
   }
 ]
 
