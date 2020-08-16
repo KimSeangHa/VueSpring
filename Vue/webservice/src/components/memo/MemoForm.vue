@@ -1,6 +1,6 @@
 <template>
     <div >
-        <p class="MemoAdd-text">Add Memo</p>
+        <p class="MemoAdd-text"><img :src="require(`@/assets/images/memo_icon.png`)" class="memoImg" />Add Memo</p>
         <div class="memo-form">
             <input v-model="title" class="memo-title" type="text" placeholder="제목을 입력해주세요.">
             <br>
@@ -43,10 +43,19 @@ export default {
     border: 1px solid #ccc;
     border-left: none;
     border-right: none;
+    border-top: none;
     padding: 20px;
     margin: 20px;
     padding-bottom: 40px;
+    padding-top: 0px;
     position: relative;
+}
+
+.memoImg {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+    margin-bottom: 3px;
 }
 
 .MemoAdd-text {
@@ -56,14 +65,14 @@ export default {
 }
 
 .memo-title {
-    width: 550px;
+    width: 100%;
     padding: 10px;
     margin-top: 20px;
 }
 
 .memo-content {
-    width: 550px;
-    height: 200px;
+    width: 100%;
+    height: 100px;
     margin-top: 20px;
 }
 
