@@ -39,6 +39,7 @@ export default {
      * @param {array} payload
      */
      addMemo (state, payload) {
+       console.log('## addMemo ##')
         const memoData = { title: payload.title, content: payload.content, id: payload.id }
         state.memoList.push(memoData)
         localStorage.setItem('memoList', JSON.stringify(state.memoList))
@@ -50,11 +51,9 @@ export default {
      * @param {array} payload
      */
      deleteMemo (state, payload) {
-         console.log(payload.item)
-         console.log(payload.index)
+         console.log('## DeleteMemo ##')
          state.memoList.splice(payload.index, 1)
          localStorage.setItem('memoList', JSON.stringify(state.memoList))
-        // localStorage.removeItem('memoList')
       },
      /**
       * 메모 수정
@@ -63,34 +62,20 @@ export default {
       * @param {Object} payload
       */
       rewriteMemo (state, payload) {
+        console.log('## rewriteMemo ##')
         if ( payload.type == 1 ) {
-          console.log('aa')
           state.memoList[payload.index].title = payload.retitle
-          console.log(state.memoList[payload.index])
           localStorage.setItem('memoList', JSON.stringify(state.memoList))
         } else if ( payload.type == 2 ) {
-          console.log('bb')
           state.memoList[payload.index].content = payload.recontent
-          console.log(state.memoList[payload.index])
           localStorage.setItem('memoList', JSON.stringify(state.memoList))
         } else {
-          console.log('cc')
           const params = payload.recontent.split('/')
-          console.log(params[0])
           state.memoList[payload.index].title = params[0]
           state.memoList[payload.index].content = params[1]
           console.log(state.memoList[payload.index])
           localStorage.setItem('memoList', JSON.stringify(state.memoList))
         }
-
-        /*
-        console.log("######")
-        console.log(payload.item)
-        state.memoList[payload.index].content = payload.item
-        console.log(state.memoList[payload.index])
-        localStorage.setItem('memoList', JSON.stringify(state.memoList))
-        */
-      // localStorage.removeItem('memoList')
       },
       /**
        * todo 목록 갱신

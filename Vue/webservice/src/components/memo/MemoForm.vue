@@ -28,10 +28,8 @@ export default {
         addMemo () {
             const { title, content } = this
             const id = new Date().getTime()
-
             this.$store.commit('memo/addMemo', { title, content, id})
             this.reset()
-            console.log(this.$store.state.memo.memoList)
             alert("메모 등록이 완료되었습니다.")
         }
     }

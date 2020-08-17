@@ -64,9 +64,6 @@ export default {
                 this.reset()
                 alert('수정이 완료되었습니다.')
             }
-
-            // this.$store.commit('memo/rewriteMemo', { content, index })
-            // alert('수정이 완료되었습니다.')
         }
     }
 }
@@ -98,7 +95,8 @@ export default {
     width: 100%;
     padding: 10px;
     margin-top: 20px;  
-    border: 0.8px solid #a9a9a9  
+    border: 0.8px solid #a9a9a9;
+    font-weight: 700;
 }
 
 .memo-content-view {
