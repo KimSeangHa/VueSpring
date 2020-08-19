@@ -4,9 +4,9 @@
 
 <mapper namespace="test">
 
-	<select id="selectTest" resultType="com.spring.webservice.vo.testVO">
+	<select id="selectTest" resultType="com.spring.webservice.vo.memoVO">
 		SELECT *
-		  FROM test;
+		  FROM memo;
  	</select>
  	
 	<insert id="insertMemo" parameterType="com.spring.webservice.vo.testVO">

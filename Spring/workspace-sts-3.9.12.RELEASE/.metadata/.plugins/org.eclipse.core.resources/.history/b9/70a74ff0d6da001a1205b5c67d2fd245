@@ -1,7 +1,0 @@
-package com.spring.webservice.vo;
-
-public class MemoVO {
-	String title;
-	String content;
-	
-}

@@ -4,4 +4,5 @@
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="com.spring.webservice.vo.MemoVO"/>
+<fullyQualifiedTypeName name="org.springframework.web.servlet.tags.Param"/>
 </qualifiedTypeNameHistroy>

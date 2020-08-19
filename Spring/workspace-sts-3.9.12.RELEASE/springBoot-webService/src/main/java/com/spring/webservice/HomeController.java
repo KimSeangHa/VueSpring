@@ -51,8 +51,8 @@ public class HomeController {
 	@CrossOrigin(origins = "http://localhost:8080")
 	@RequestMapping(value = "/dbtest", method = RequestMethod.GET)
 	@ResponseBody
-	public List<testVO> dbtest(Locale locale, Model model) {
-		List<testVO> testSelect = sqlSession.selectList("test.selectTest");
+	public List<memoVO> dbtest(Locale locale, Model model) {
+		List<memoVO> testSelect = sqlSession.selectList("test.selectTest");
 			
 		return testSelect;
 	}

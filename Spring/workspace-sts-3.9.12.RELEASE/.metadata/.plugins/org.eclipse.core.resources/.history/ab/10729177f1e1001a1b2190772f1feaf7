@@ -1,0 +1,22 @@
+package com.spring.webservice.vo;
+
+public class memoVO {
+	private String memo_content;
+	private String memo_id;
+	
+	public String getMemo_id() {
+		return memo_id;
+	}
+	public void setMemo_id(String memo_id) {
+		this.memo_id = memo_id;
+	}
+	public String getMemo_content() {
+		return memo_content;
+	}
+	public void setMemo_content(String memo_content) {
+		this.memo_content = memo_content;
+	}
+	
+
+	
+}

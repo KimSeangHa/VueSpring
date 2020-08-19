@@ -4,9 +4,26 @@
 
 <mapper namespace="memo">
 
-	<insert id="insertMemo" parameterType="com.spring.webservice.vo.testVO">
-		INSERT
-		    INTO memo (title, content)
-		    VALUES (#{title}, #{content})
+	<insert id="addMemo" parameterType="com.spring.webservice.vo.memoVO">
+		INSERT 
+		  INTO MEMO ( MEMO_CONTENT
+		                 , MEMO_ID
+		                 )
+		          VALUES (#{content}
+		                 , #{id}
+		                 )
  	</insert>
+ 	
+ 	<delete id="deleteMemo" parameterType="com.spring.webservice.vo.memoVO">
+		DELETE 
+		  FROM MEMO
+		 WHERE MEMO_ID = #{id}
+	</delete>
+	
+ 	<update id="rewriteMemo" parameterType="com.spring.webservice.vo.memoVO">
+		UPDATE MEMO
+		   SET MEMO_CONTENT = #{content}
+		 WHERE MEMO_ID = #{id}
+	</update>
+ 	
  </mapper>
