@@ -2,8 +2,6 @@
     <div >
         <p class="MemoAdd-text"><img :src="require(`@/assets/images/memo_icon.png`)" class="memoImg" />Add Memo</p>
         <div class="memo-form">
-            <input v-model="title" class="memo-title" type="text" placeholder="제목을 입력해주세요.">
-            <br>
             <textarea v-model="content" class="memo-content" placeholder="내용을 입력해주세요."></textarea>
             <br>
             <button class="addMemoBtn" @click="addMemo">등록</button>
@@ -16,21 +14,18 @@ export default {
     name: 'MemoForm',
     data: function () {
         return {
-            title: '',
             content: ''
         }
     },
     methods: {
         reset () {
-            this.title = ''
             this.content = ''
         },
         addMemo () {
-            const { title, content } = this
+            const { content } = this
             const id = new Date().getTime()
-            this.$store.commit('memo/addMemo', { title, content, id})
+            this.$store.commit('memo/addMemo', { content, id })
             this.reset()
-            alert("메모 등록이 완료되었습니다.")
         }
     }
 }
@@ -62,16 +57,9 @@ export default {
     margin-top: 30px;
 }
 
-.memo-title {
-    width: 100%;
-    padding: 10px;
-    margin-top: 20px;
-}
-
 .memo-content {
     width: 100%;
     height: 100px;
-    margin-top: 20px;
 }
 
 .addMemoBtn {

@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export default {
     /**
      * 하기 항목들에 namespace를 사용합니다.
@@ -40,9 +42,24 @@ export default {
      */
      addMemo (state, payload) {
        console.log('## addMemo ##')
-        const memoData = { title: payload.title, content: payload.content, id: payload.id }
+        const memoData = { content: payload.content, id: payload.id }
         state.memoList.push(memoData)
-        localStorage.setItem('memoList', JSON.stringify(state.memoList))
+
+        axios.post('http://localhost:9090/webservice/addMemo', { 
+           content: payload.content,
+           id: payload.id
+         })
+         .then((result) => {
+             if (result.data === 0) {
+               alert("등록을 완료하였습니다.")
+             } else {
+               alert("등록을 실패하였습니다. 관리자에게 문의해주세요.")
+             }
+         })
+         .catch(e => {
+             alert("Error : 관리자에게 문의해주세요.")
+             console.log(e)
+         }) 
       },
     /**
      * 메모 삭제
@@ -53,7 +70,21 @@ export default {
      deleteMemo (state, payload) {
          console.log('## DeleteMemo ##')
          state.memoList.splice(payload.index, 1)
-         localStorage.setItem('memoList', JSON.stringify(state.memoList))
+         
+         axios.post('http://localhost:9090/webservice/deleteMemo', { 
+            id: payload.item.id
+         })
+         .then((result) => {
+             if (result.data === 0) {
+               alert("삭제를 완료하였습니다")
+             } else {
+               alert("삭제를 실패하였습니다. 관리자에게 문의해주세요.")
+             }
+         })
+         .catch(e => {
+             alert("Error : 관리자에게 문의해주세요.")
+             console.log(e)
+         })
       },
      /**
       * 메모 수정
@@ -63,82 +94,25 @@ export default {
       */
       rewriteMemo (state, payload) {
         console.log('## rewriteMemo ##')
-        if ( payload.type == 1 ) {
-          state.memoList[payload.index].title = payload.retitle
-          localStorage.setItem('memoList', JSON.stringify(state.memoList))
-        } else if ( payload.type == 2 ) {
-          state.memoList[payload.index].content = payload.recontent
-          localStorage.setItem('memoList', JSON.stringify(state.memoList))
-        } else {
-          const params = payload.recontent.split('/')
-          state.memoList[payload.index].title = params[0]
-          state.memoList[payload.index].content = params[1]
-          console.log(state.memoList[payload.index])
-          localStorage.setItem('memoList', JSON.stringify(state.memoList))
-        }
-      },
-      /**
-       * todo 목록 갱신
-       *
-       * @param {object} state
-       * @param {arrary} payload todo 목록
-       */
-      setTodos (state, payload) {
-        state.todos = payload
-      },
-      /**
-       * todo 아이템 추가
-       *
-       * @param {object} state
-       * @param {string} todoItem
-       */
-      addOneItem (state, todoItem) {
-        const obj = { completed: false, item: todoItem }
-        localStorage.setItem(todoItem, JSON.stringify(obj))
-        state.todoItems.push(obj)
-      },
-      /**
-       * todo 아이템 삭제
-       *
-       * @param {object} state
-       * @param {object} payload
-       */
-      removeItem (state, payload) {
-        localStorage.removeItem(payload.todoItem.item)
-        state.todoItems.splice(payload.index, 1)
-      },
-      /**
-       * 아이템 상태 변경 (check/uncheck 처리)
-       *
-       * @param {object} state
-       * @param {object} payload
-       */
-      toggleItem (state, payload) {
-        state.todoItems[payload.index].completed = !state.todoItems[payload.index]
-          .completed
-        localStorage.removeItem(payload.todoItem.item)
-        localStorage.setItem(
-          payload.todoItem.item,
-          JSON.stringify(payload.todoItem)
-        )
-      },
-      /**
-       * todo 목록 비우기
-       *
-       * @param {object} state
-       */
-      clearAllItems (state) {
-        localStorage.clear()
-        state.todoItems = []
-      },
-      /**
-       * todo item 설정
-       *
-       * @param {object} state
-       * @param {array} payload
-       */
-      setTodoItems (state, payload) {
-        state.todoItems = payload
+        state.memoList[payload.index].content = payload.content
+
+        axios.post('http://localhost:9090/webservice/rewriteMemo', { 
+            id: payload.item.id,
+            content: payload.content
+         })
+         .then((result) => {
+             if (result.data === 0) {
+               alert("수정을 완료하였습니다")
+             } else {
+               alert("수정을 실패하였습니다. 관리자에게 문의해주세요.")
+             }
+         })
+         .catch(e => {
+             alert("Error : 관리자에게 문의해주세요.")
+             console.log(e)
+         })
+
+        localStorage.setItem('memoList', JSON.stringify(state.memoList))
       }
     },
   
