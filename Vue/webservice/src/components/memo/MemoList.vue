@@ -7,7 +7,8 @@
                     <div class="date-view">등록 : {{ item.regDate }}</div>
                     <div v-if="item.modifyDate" class="date-view">수정 : {{ item.modifyDate }}</div>
                 </div>
-                <textarea @keyup="modify($event, index)" :value="item.content" class="memo-content"></textarea>
+                <ckeditor :editor="editor" :value="item.content" @input="modify($event, index)"></ckeditor>
+                <!-- <textarea @keyup="modify($event, index)" :value="item.content" class="memo-content"></textarea> -->
                 <br>
                 <div style="text-align: right;">
                     <div class="button_wrap">
@@ -24,12 +25,18 @@
 
 <script>
 import {mapState} from 'vuex'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 export default {
     name: 'MemoList',
     data: function() {
         return {
-            content : ''
+            content : '',
+            editor: ClassicEditor,
+            editorData: '<p>Content of the editor.</p>',
+            editorConfig: {
+                // The configuration of the editor.
+            },
         }
     },
     created () {
@@ -47,13 +54,18 @@ export default {
         },
         modify (event, index) {
             console.log(index)
-            console.log(event.target.value)
-            this.content = event.target.value
+            console.log(event)
+            this.content = event
         },
         rewriteMemo (content, index, item) {
-            console.log(content, index, item, modifyDate)
             const modifyDate = this.$moment().format('YYYY-MM-DD HH:mm:ss')
+            console.log(content, index, item, modifyDate)
             this.$store.commit('memo/rewriteMemo', { content, index, item, modifyDate})
+        },
+        onEditorInput (a, b, c) {
+            console.log(a)
+            console.log(b)
+            console.log(c)
         }
     }
 }

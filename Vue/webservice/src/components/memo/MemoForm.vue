@@ -2,7 +2,8 @@
     <div >
         <p class="MemoAdd-text"><img :src="require(`@/assets/images/memo_icon.png`)" class="memoImg" />Add Memo</p>
         <div class="memo-form">
-            <textarea v-model="content" class="memo-content" placeholder="내용을 입력해주세요."></textarea>
+            <ckeditor :editor="editor" v-model="content"></ckeditor>
+            <!-- <textarea v-model="content" class="memo-content" placeholder="내용을 입력해주세요."></textarea> -->
             <br>
             <div style="text-align: right;">
                 <button button class="addMemoBtn" @click="addMemo">등록</button>
@@ -12,11 +13,18 @@
 </template>
 
 <script>
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
+
 export default {
     name: 'MemoForm',
     data: function () {
         return {
             content: '',
+            editor: ClassicEditor,
+            editorData: '<p>Content of the editor.</p>',
+            editorConfig: {
+            }
         }
     },
     methods: {
