@@ -4,7 +4,9 @@
         <div class="memo-form">
             <textarea v-model="content" class="memo-content" placeholder="내용을 입력해주세요."></textarea>
             <br>
-            <button class="addMemoBtn" @click="addMemo">등록</button>
+            <div style="text-align: right;">
+                <button button class="addMemoBtn" @click="addMemo">등록</button>
+            </div>
         </div>
     </div>
 </template>
@@ -14,7 +16,7 @@ export default {
     name: 'MemoForm',
     data: function () {
         return {
-            content: ''
+            content: '',
         }
     },
     methods: {
@@ -24,7 +26,8 @@ export default {
         addMemo () {
             const { content } = this
             const id = new Date().getTime()
-            this.$store.commit('memo/addMemo', { content, id })
+            const regDate = this.$moment().format('YYYY-MM-DD HH:mm:ss')
+            this.$store.commit('memo/addMemo', { content, id, regDate })
             this.reset()
         }
     }
@@ -68,7 +71,7 @@ export default {
     margin-top: 20px;
     position: relative;
     border: 1px solid #ddd;
-    background-color : #ccc;
+    background-color : #fff;
     border-radius: 8px;
     font-size: 14px;
 }

@@ -35,6 +35,27 @@ export default {
      */
     mutations: {
     /**
+     * 메모 리스트
+     *
+     * @param {object} state
+     * @param {array} payload
+     */
+     getMemoList (state) {
+       axios.post('http://localhost:9090/webservice/getMemoList')
+        .then((result) => {
+            if (result.status === 200) {
+              console.log(result.data)
+              state.memoList = result.data
+            } else {
+              alert("등록을 실패하였습니다. 관리자에게 문의해주세요.")
+            }
+        })
+        .catch(e => {
+            alert("Error : 관리자에게 문의해주세요.")
+            console.log(e)
+        }) 
+     },
+    /**
      * 메모 등록
      *
      * @param {object} state
@@ -42,19 +63,20 @@ export default {
      */
      addMemo (state, payload) {
        console.log('## addMemo ##')
-        const memoData = { content: payload.content, id: payload.id }
+        const memoData = { content: payload.content, id: payload.id, regDate: payload.regDate }
         state.memoList.push(memoData)
-
+        
         axios.post('http://localhost:9090/webservice/addMemo', { 
            content: payload.content,
-           id: payload.id
+           id: payload.id,
+           regDate: payload.regDate
          })
          .then((result) => {
-             if (result.data === 0) {
-               alert("등록을 완료하였습니다.")
-             } else {
-               alert("등록을 실패하였습니다. 관리자에게 문의해주세요.")
-             }
+            if (result.data === 0) {
+              alert("등록을 완료하였습니다.")
+            } else {
+              alert("등록을 실패하였습니다. 관리자에게 문의해주세요.")
+            }
          })
          .catch(e => {
              alert("Error : 관리자에게 문의해주세요.")
@@ -95,10 +117,12 @@ export default {
       rewriteMemo (state, payload) {
         console.log('## rewriteMemo ##')
         state.memoList[payload.index].content = payload.content
+        state.memoList[payload.index].modifyDate = payload.modifyDate
 
         axios.post('http://localhost:9090/webservice/rewriteMemo', { 
             id: payload.item.id,
-            content: payload.content
+            content: payload.content,
+            modifyDate: payload.modifyDate
          })
          .then((result) => {
              if (result.data === 0) {
@@ -111,8 +135,6 @@ export default {
              alert("Error : 관리자에게 문의해주세요.")
              console.log(e)
          })
-
-        localStorage.setItem('memoList', JSON.stringify(state.memoList))
       }
     },
   

@@ -3,10 +3,20 @@
         <p class="MemoList-text"><img :src="require(`@/assets/images/memo_icon.png`)" class="memoImg" />Memo List</p>
         <ul>
             <li v-for="(item, index) in memoList" :key="item.id">
+                <div style="text-align: right">
+                    <div class="date-view">등록 : {{ item.regDate }}</div>
+                    <div v-if="item.modifyDate" class="date-view">수정 : {{ item.modifyDate }}</div>
+                </div>
                 <textarea @keyup="modify($event, index)" :value="item.content" class="memo-content"></textarea>
                 <br>
-                <button class="deleteMemoBtn" @click="deleteMemo(item, index)">삭제</button>
-                <button class="rewriteMemoBtn" @click="rewriteMemo(content, index, item)">수정</button>
+                <div style="text-align: right;">
+                    <div class="button_wrap">
+                        <button class="deleteMemoBtn" @click="deleteMemo(item, index)">삭제</button>
+                    </div>
+                    <div class="button_wrap">
+                        <button class="rewriteMemoBtn" @click="rewriteMemo(content, index, item)">수정</button>
+                    </div>
+                </div>
             </li>
         </ul>
     </div>
@@ -22,10 +32,16 @@ export default {
             content : ''
         }
     },
+    created () {
+        this.getMemoList ()  
+    },
     computed: {
         ...mapState('memo', ['memoList'])
     },
     methods: {
+        getMemoList () {
+            this.$store.commit('memo/getMemoList')
+        },
         deleteMemo (item, index) {
             this.$store.commit('memo/deleteMemo', { item, index })
         },
@@ -35,7 +51,9 @@ export default {
             this.content = event.target.value
         },
         rewriteMemo (content, index, item) {
-            this.$store.commit('memo/rewriteMemo', { content, index, item })
+            console.log(content, index, item, modifyDate)
+            const modifyDate = this.$moment().format('YYYY-MM-DD HH:mm:ss')
+            this.$store.commit('memo/rewriteMemo', { content, index, item, modifyDate})
         }
     }
 }
@@ -56,6 +74,14 @@ export default {
     margin-left: 40px;
 }
 
+.date-view {
+    font-size: 11px;
+    padding-bottom: 15px;
+    width:150px;
+    display: inline-block;
+    text-align: right;
+    color: #6b6b6b;
+}
 .memoImg {
     width: 30px;
     height: 30px;
@@ -83,14 +109,19 @@ li {
     margin-top: 20px;
     position: relative;
     border: 1px solid #ddd;
-    background-color : #ccc;
+    background-color : #fff;
     border-radius: 8px;
     font-size: 14px;
-    margin-right:20px;
 }
 
 .deleteMemoBtn:hover, .rewriteMemoBtn:hover {
     background-color : #172d58;
     color:#fff;
+}
+
+.button_wrap {
+    display: inline-block;
+    text-align: right;
+    width: 100px;
 }
 </style>
