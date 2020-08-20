@@ -6,24 +6,36 @@
 
 	<insert id="addMemo" parameterType="com.spring.webservice.vo.memoVO">
 		INSERT 
-		  INTO MEMO ( MEMO_CONTENT
-		                 , MEMO_ID
-		                 )
-		          VALUES (#{content}
-		                 , #{id}
-		                 )
+		  INTO MEMO ( CONTENT
+		            , ID
+		            , REGDATE
+		            )
+		     VALUES ( #{content}
+		            , #{id}
+		            , #{regDate}
+		            )
  	</insert>
  	
  	<delete id="deleteMemo" parameterType="com.spring.webservice.vo.memoVO">
 		DELETE 
 		  FROM MEMO
-		 WHERE MEMO_ID = #{id}
+		 WHERE ID = #{id}
 	</delete>
 	
  	<update id="rewriteMemo" parameterType="com.spring.webservice.vo.memoVO">
 		UPDATE MEMO
-		   SET MEMO_CONTENT = #{content}
-		 WHERE MEMO_ID = #{id}
+		   SET CONTENT = #{content}
+		     , MODIFYDATE = #{modifyDate}
+		 WHERE ID = #{id}
 	</update>
+	
+	<select id="getMemoList" resultType="com.spring.webservice.vo.memoVO">
+		SELECT NUM
+		     , CONTENT
+		     , ID
+		     , REGDATE
+		     , IFNULL(MODIFYDATE, "") AS MODIFYDATE
+		  FROM MEMO
+	</select>
  	
  </mapper>

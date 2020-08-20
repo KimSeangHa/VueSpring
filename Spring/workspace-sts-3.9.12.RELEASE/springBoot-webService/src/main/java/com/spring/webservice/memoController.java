@@ -1,5 +1,7 @@
 package com.spring.webservice;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import org.apache.ibatis.session.SqlSession;
@@ -70,7 +72,7 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	public String rewriteMemo(Locale locale, Model model, @RequestBody memoVO memoVO) {
 		System.out.println("## RewriteMemo ## ");
 		System.out.println(memoVO.getId());
-			
+		System.out.println(memoVO.getModifyDate());
 		int rst = sqlSession.update("memo.rewriteMemo", memoVO);
 		String result = "";
 		
@@ -81,5 +83,22 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 		}
 		
 		return result;
+	}
+	
+	// 메모 리스트 조회
+	@CrossOrigin(origins = "http://localhost:8080")
+	@RequestMapping(value = "/getMemoList", method = RequestMethod.POST)
+	@ResponseBody
+	public List<memoVO> getListMemo(Locale locale, Model model) {
+		System.out.println("## getListMemo ## ");
+		
+		List<memoVO> getMemoList = sqlSession.selectList("memo.getMemoList");
+		ArrayList<String> errorResult = new ArrayList<String>();
+		
+		if (getMemoList == null) {
+			errorResult.add("ERROR");
+		}
+		
+		return getMemoList;
 	}
 }
