@@ -31,11 +31,20 @@
 	
 	<select id="getMemoList" resultType="com.spring.webservice.vo.memoVO">
 		SELECT NUM
-		     , CONTENT
+		     , REPLACE(CONTENT, "%0A", "\n") AS CONTENT
 		     , ID
 		     , REGDATE
 		     , IFNULL(MODIFYDATE, "") AS MODIFYDATE
 		  FROM MEMO
 	</select>
  	
+	<select id="getMemo" resultType="com.spring.webservice.vo.memoVO">
+		SELECT NUM
+		     , CONTENT
+		     , ID
+		     , REGDATE
+		     , IFNULL(MODIFYDATE, "") AS MODIFYDATE	
+		  FROM MEMO
+		 LIMIT 1
+	</select>
  </mapper>

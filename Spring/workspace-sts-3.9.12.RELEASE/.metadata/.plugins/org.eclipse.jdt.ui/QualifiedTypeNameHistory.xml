@@ -1,8 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="com.spring.webservice.vo.MemoVO"/>
 <fullyQualifiedTypeName name="org.springframework.web.servlet.tags.Param"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="java.sql.Date"/>
+<fullyQualifiedTypeName name="java.sql.Timestamp"/>
+<fullyQualifiedTypeName name="java.text.DateFormat"/>
+<fullyQualifiedTypeName name="org.telegram.telegrambots.bots.TelegramLongPollingBot"/>
+<fullyQualifiedTypeName name="org.telegram.telegrambots.meta.api.objects.Update"/>
+<fullyQualifiedTypeName name="org.telegram.telegrambots.meta.api.objects.Message"/>
+<fullyQualifiedTypeName name="org.telegram.telegrambots.meta.api.methods.send.SendMessage"/>
+<fullyQualifiedTypeName name="org.telegram.telegrambots.meta.exceptions.TelegramApiException"/>
+<fullyQualifiedTypeName name="com.spring.webservice.utill.TelegramBot"/>
+<fullyQualifiedTypeName name="com.spring.webservice.utill.Telegram"/>
+<fullyQualifiedTypeName name="com.spring.webservice.utill.TelegramSend"/>
+<fullyQualifiedTypeName name="java.net.URLConnection"/>
+<fullyQualifiedTypeName name="java.io.BufferedInputStream"/>
+<fullyQualifiedTypeName name="java.net.URL"/>
+<fullyQualifiedTypeName name="org.glassfish.jersey.message.internal.StringBuilderUtils"/>
+<fullyQualifiedTypeName name="java.io.InputStream"/>
+<fullyQualifiedTypeName name="java.net.URLEncoder"/>
+<fullyQualifiedTypeName name="com.mysql.cj.jdbc.PreparedStatement"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="com.spring.webservice.utill.Telegram_MemoList"/>
+<fullyQualifiedTypeName name="com.spring.webservice.vo.memoVO"/>
+<fullyQualifiedTypeName name="org.springframework.stereotype.Controller"/>
+<fullyQualifiedTypeName name="java.sql.Statement"/>
+<fullyQualifiedTypeName name="java.sql.Connection"/>
+<fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
 </qualifiedTypeNameHistroy>

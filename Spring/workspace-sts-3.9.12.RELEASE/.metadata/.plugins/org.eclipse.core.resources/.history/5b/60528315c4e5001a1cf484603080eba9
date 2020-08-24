@@ -1,0 +1,72 @@
+package com.spring.webservice.utill;
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+import com.spring.webservice.vo.memoVO;
+
+public class TelegramBot extends TelegramLongPollingBot {
+	
+   	@Autowired
+	private SqlSession sqlSession;
+   	
+    private final String BOT_NAME = "Kim_Scheduler_Bot"; //Bot Name
+    private final String AUTH_KEY = "1334891991:AAGkrXOd3oPP92tQzRclNY4nmxwuvMPIUqM"; //Bot Auth-Key
+    private final String CHAT_ID = "616043197";
+    //private final String CHAT_ID = "-381510796"; //Chat ID
+    
+    @Override 
+   public void onUpdateReceived(Update update) {
+    	
+        // TODO
+    	System.out.println(update);
+    	System.out.println(update.getMessage().getText());
+    	
+    	String Text = update.getMessage().getText();
+    	
+    	//디비 통신해서 Send Message
+    	memoVO memoList = sqlSession.selectOne("memo.getMemo");
+    	System.out.println(memoList.getContent());
+    	
+    	SendMessage message = new SendMessage();
+    	//add chat id and text
+    	message.setChatId(CHAT_ID);
+    	message.setText("ㅁㅁㅁㅁㅁ\nAaaaa");
+		
+		try {
+			execute(message);
+		} catch (TelegramApiException e) {
+			e.printStackTrace();
+		}
+		
+    	/*
+    	 * SendMessage message = new SendMessage().enableHtml(true);
+		message.setText("AAA");
+		message.setChatId("aa");
+		
+		try {
+			execute(message);
+		} catch (TelegramApiException e) {
+			e.printStackTrace();
+		}
+    	 */
+   }
+
+   @Override 
+   public String getBotUsername() {
+        // TODO 
+       return BOT_NAME;
+   }
+
+   @Override 
+   public String getBotToken() {
+        // TODO 
+       return  AUTH_KEY;
+   }
+}

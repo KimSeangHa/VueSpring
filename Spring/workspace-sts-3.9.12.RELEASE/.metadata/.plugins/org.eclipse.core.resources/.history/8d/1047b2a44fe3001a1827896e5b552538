@@ -1,0 +1,15 @@
+package com.spring.webservice.utill;
+
+import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+public class Telegram {
+    public static void makeBot() {
+        TelegramBotsApi api = new  TelegramBotsApi();
+        try {
+            api.registerBot(new TelegramBot());
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }	
+}

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.webservice.utill.Telegram;
+import com.spring.webservice.utill.TelegramSend;
 import com.spring.webservice.vo.memoVO;
 
 @RestController
@@ -29,15 +34,19 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	@CrossOrigin(origins = "http://localhost:8080")
 	@RequestMapping(value = "/addMemo", method = RequestMethod.POST)
 	@ResponseBody
-	public String addMemo(Locale locale, Model model, @RequestBody memoVO memoVO) {
+	public String addMemo(Locale locale, Model model, @RequestBody memoVO memoVO, HttpServletRequest request) {
 		System.out.println("## AddMemo ##");
 		System.out.println(memoVO.getId());
-			
+		System.out.println(memoVO.getContent());
+		
+		memoVO.setContent(memoVO.getContent().replace("\n", "%0A"));
+		
 		int rst = sqlSession.insert("memo.addMemo", memoVO);
 		String result = "";
 		
 		if ( rst > 0) {
 			result = "0";
+			TelegramSend.SendMessage(memoVO.getContent());
 		} else {
 			result = "1";
 		}
@@ -73,11 +82,14 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 		System.out.println("## RewriteMemo ## ");
 		System.out.println(memoVO.getId());
 		System.out.println(memoVO.getModifyDate());
+		
+		memoVO.setContent(memoVO.getContent().replace("\n", "%0A"));
 		int rst = sqlSession.update("memo.rewriteMemo", memoVO);
 		String result = "";
 		
 		if ( rst > 0) {
 			result = "0";
+			TelegramSend.SendMessage(memoVO.getContent());
 		} else {
 			result = "1";
 		}
@@ -100,5 +112,17 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 		}
 		
 		return getMemoList;
+	}
+	
+	// 텔레그램 생성
+	@CrossOrigin(origins = "http://localhost:8080")
+	@RequestMapping(value = "/Makebot", method = RequestMethod.POST)
+	@ResponseBody
+	public String Makebot(Locale locale, Model model) {
+		System.out.println("## Make Bot ## ");
+	
+		Telegram.makeBot();
+		
+		return "0";
 	}
 }

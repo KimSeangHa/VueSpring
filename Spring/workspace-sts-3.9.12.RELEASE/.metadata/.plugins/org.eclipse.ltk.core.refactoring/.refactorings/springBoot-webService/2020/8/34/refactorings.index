@@ -10,3 +10,5 @@
 1597885712814	Encapsulate field 'num'
 1597887464644	Encapsulate field 'regDate'
 1597899215450	Encapsulate field 'modifyDate'
+1597973825419	Rename type 'Telegram'
+1597975250919	Delete element
