@@ -1,9 +1,18 @@
 <template>
     <div >
         <p class="MemoAdd-text"><img :src="require(`@/assets/images/memo_icon.png`)" class="memoImg" />Add Memo</p>
+        <p class="MemoAdd-text telegram" @click="Makebot"><img :src="require(`@/assets/images/telegram.jpg`)" class="memoImg" />Make Bot</p>
         <div class="memo-form">
-            <ckeditor :editor="editor" v-model="content"></ckeditor>
-            <!-- <textarea v-model="content" class="memo-content" placeholder="내용을 입력해주세요."></textarea> -->
+            <!-- <ckeditor :editor="editor" v-model="content"></ckeditor> -->
+            <textarea 
+                v-model="content" 
+                class="memo-content" 
+                placeholder="내용을 입력해주세요."
+                @keydown.enter.exact.prevent
+                @keyup.enter.exact="enterFunc"
+                @keydown.enter.shift.exact="enterFunc"
+            >
+            </textarea>
             <br>
             <div style="text-align: right;">
                 <button button class="addMemoBtn" @click="addMemo">등록</button>
@@ -13,30 +22,55 @@
 </template>
 
 <script>
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-
+// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import axios from 'axios'
 
 export default {
     name: 'MemoForm',
     data: function () {
         return {
             content: '',
-            editor: ClassicEditor,
-            editorData: '<p>Content of the editor.</p>',
-            editorConfig: {
-            }
+            // editor: ClassicEditor,
+            // editorData: '',
+            // editorConfig: {
+            // }
         }
     },
     methods: {
         reset () {
             this.content = ''
         },
-        addMemo () {
+        addMemo () { 
+            if ( content === '') {
+                alert("내용을 입력해주세요.")
+                return false
+            }
+            
             const { content } = this
             const id = new Date().getTime()
             const regDate = this.$moment().format('YYYY-MM-DD HH:mm:ss')
             this.$store.commit('memo/addMemo', { content, id, regDate })
             this.reset()
+        },
+        Makebot () {
+            axios.post('http://localhost:9090/webservice/Makebot')
+            .then((result) => {
+                if (result.status === 200) {
+                    alert("Bot 생성 완료 !")
+                } else {
+                    alert("Bot 생성 실패. 관리자에게 문의해주세요.")
+                }
+            })
+            .catch(e => {
+                alert("Error : 관리자에게 문의해주세요.")
+                console.log(e)
+            }) 
+        },
+        enterFunc () {
+            console.log('aaa')
+            const enter = '\n'
+            this.content = this.content + enter
+            console.log(this.content)
         }
     }
 }
@@ -66,8 +100,14 @@ export default {
     font-size: 18px;
     margin-left: 40px;
     margin-top: 30px;
+    display: inline-block;
 }
 
+.telegram {
+    float: right;
+    margin-right: 40px;
+    cursor: pointer;
+}
 .memo-content {
     width: 100%;
     height: 100px;

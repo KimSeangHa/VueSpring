@@ -7,8 +7,14 @@
                     <div class="date-view">등록 : {{ item.regDate }}</div>
                     <div v-if="item.modifyDate" class="date-view">수정 : {{ item.modifyDate }}</div>
                 </div>
-                <ckeditor :editor="editor" :value="item.content" @input="modify($event, index)"></ckeditor>
-                <!-- <textarea @keyup="modify($event, index)" :value="item.content" class="memo-content"></textarea> -->
+                <textarea 
+                    @keyup="modify($event, index)" 
+                    :value="item.content" 
+                    class="memo-content"
+                    @keyup.enter.exact="enterFunc"
+                    @keydown.enter.shift.exact="enterFunc"
+                >
+                </textarea>
                 <br>
                 <div style="text-align: right;">
                     <div class="button_wrap">
@@ -25,18 +31,18 @@
 
 <script>
 import {mapState} from 'vuex'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 export default {
     name: 'MemoList',
     data: function() {
         return {
             content : '',
-            editor: ClassicEditor,
-            editorData: '<p>Content of the editor.</p>',
-            editorConfig: {
+            // editor: ClassicEditor,
+            // editorData: '',
+            // editorConfig: {
                 // The configuration of the editor.
-            },
+            // },
         }
     },
     created () {
@@ -54,18 +60,24 @@ export default {
         },
         modify (event, index) {
             console.log(index)
-            console.log(event)
-            this.content = event
+            console.log(event.target.value)
+            this.content = event.target.value
         },
         rewriteMemo (content, index, item) {
+            if ( content === '' ) {
+                alert("수정사항이 없습니다.")
+                return false
+            }
+
             const modifyDate = this.$moment().format('YYYY-MM-DD HH:mm:ss')
             console.log(content, index, item, modifyDate)
             this.$store.commit('memo/rewriteMemo', { content, index, item, modifyDate})
         },
-        onEditorInput (a, b, c) {
-            console.log(a)
-            console.log(b)
-            console.log(c)
+        enterFunc () {
+            console.log('aaa')
+            const enter = '\n'
+            this.content = this.content + enter
+            console.log(this.content)
         }
     }
 }
