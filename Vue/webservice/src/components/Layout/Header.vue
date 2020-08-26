@@ -2,7 +2,11 @@
     <div class="header-wrap">
         <div class="header-form">
             <ul>
-                <li><router-link to="/MemoApp">Memo App</router-link></li>
+                <li><router-link to="/MemoApp">Configuration</router-link></li>
+                <li><router-link to="/MemoApp">Manual</router-link></li>
+                <li><router-link to="/MemoApp">API manage</router-link></li>
+                <li><router-link to="/MemoApp">MemoApp</router-link></li>
+                <li><router-link to="/MemoApp">Supplement</router-link></li>
             </ul>
         </div>
     </div>
@@ -36,7 +40,7 @@ export default {
     float: left;                
     line-height: 50px;          
     vertical-align: middle;     
-    text-align: left; 
+    text-align: center; 
     width: 120px;    
     height: 50px;    
     font-size: 14px;                          

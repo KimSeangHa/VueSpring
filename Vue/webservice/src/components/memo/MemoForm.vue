@@ -30,10 +30,6 @@ export default {
     data: function () {
         return {
             content: '',
-            // editor: ClassicEditor,
-            // editorData: '',
-            // editorConfig: {
-            // }
         }
     },
     methods: {
@@ -49,7 +45,9 @@ export default {
             const { content } = this
             const id = new Date().getTime()
             const regDate = this.$moment().format('YYYY-MM-DD HH:mm:ss')
-            this.$store.commit('memo/addMemo', { content, id, regDate })
+            const curDate = this.$moment().format('YYYY-MM-DD')
+            console.log(curDate);
+            this.$store.commit('memo/addMemo', { content, id, regDate, curDate })
             this.reset()
         },
         Makebot () {

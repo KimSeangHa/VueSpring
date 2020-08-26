@@ -120,7 +120,7 @@ export default {
     border: 0.8px solid #a9a9a9  
 }
 
-li {
+.list-form li {
     list-style: none;
     margin-top: 20px;
     padding-bottom: 30px;

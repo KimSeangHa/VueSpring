@@ -69,7 +69,8 @@ export default {
         axios.post('http://localhost:9090/webservice/addMemo', { 
            content: payload.content,
            id: payload.id,
-           regDate: payload.regDate
+           regDate: payload.regDate,
+           curDate: payload.curDate
          })
          .then((result) => {
             if (result.data === 0) {
