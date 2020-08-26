@@ -114,7 +114,7 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 		return getMemoList;
 	}
 	
-	// 텔레그램 생성
+	// 텔레그램 봇 생성
 	@CrossOrigin(origins = "http://localhost:8080")
 	@RequestMapping(value = "/Makebot", method = RequestMethod.POST)
 	@ResponseBody

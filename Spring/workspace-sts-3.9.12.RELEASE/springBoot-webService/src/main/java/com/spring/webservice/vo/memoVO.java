@@ -6,6 +6,7 @@ public class memoVO {
 	private int num;
 	private String regDate;
 	private String modifyDate;
+	private String curDate;
 	
 	public String getContent() {
 		return content;
@@ -37,5 +38,11 @@ public class memoVO {
 	}
 	public void setModifyDate(String modifyDate) {
 		this.modifyDate = modifyDate;
+	}
+	public String getCurDate() {
+		return curDate;
+	}
+	public void setCurDate(String curDate) {
+		this.curDate = curDate;
 	}
 }

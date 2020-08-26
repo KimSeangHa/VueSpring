@@ -9,10 +9,12 @@
 		  INTO MEMO ( CONTENT
 		            , ID
 		            , REGDATE
+		            , CURDATE
 		            )
 		     VALUES ( #{content}
 		            , #{id}
 		            , #{regDate}
+		            , #{curDate}
 		            )
  	</insert>
  	
@@ -36,6 +38,7 @@
 		     , REGDATE
 		     , IFNULL(MODIFYDATE, "") AS MODIFYDATE
 		  FROM MEMO
+	  ORDER BY REGDATE DESC
 	</select>
  	
 	<select id="getMemo" resultType="com.spring.webservice.vo.memoVO">
