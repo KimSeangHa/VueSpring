@@ -31,18 +31,12 @@
 
 <script>
 import {mapState} from 'vuex'
-// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 export default {
     name: 'MemoList',
     data: function() {
         return {
-            content : '',
-            // editor: ClassicEditor,
-            // editorData: '',
-            // editorConfig: {
-                // The configuration of the editor.
-            // },
+            content : ''
         }
     },
     created () {

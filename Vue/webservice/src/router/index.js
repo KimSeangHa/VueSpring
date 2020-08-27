@@ -32,6 +32,16 @@ Vue.use(VueRouter)
     path: '/MemoApp',
     name: 'MemoApp',
     component: () => import('@/views/MemoApp.vue')
+  },
+  {
+    path: '/Register',
+    name: 'Register',
+    component: () => import('@/views/Register.vue')
+  },
+  {
+    path: '/Login',
+    name: 'Login',
+    component: () => import('@/views/Login.vue')
   }
 ]
 

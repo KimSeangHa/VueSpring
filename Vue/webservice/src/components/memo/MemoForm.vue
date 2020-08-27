@@ -22,7 +22,6 @@
 </template>
 
 <script>
-// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios'
 
 export default {

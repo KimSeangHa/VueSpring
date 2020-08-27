@@ -6,15 +6,21 @@
                 <li><router-link to="/MemoApp">Manual</router-link></li>
                 <li><router-link to="/MemoApp">API manage</router-link></li>
                 <li><router-link to="/MemoApp">MemoApp</router-link></li>
-                <li><router-link to="/MemoApp">Supplement</router-link></li>
+                <li><router-link to="/MemoApp">Supplement</router-link></li> 
+                <li v-if="loginToken" style="float:right;"><router-link to="/Login">Logout</router-link></li> 
+                <li v-if="!loginToken" style="float:right;"><router-link to="/Login">Login</router-link></li> 
+                <li style="float:right;"><router-link to="/Register">Sign Up</router-link></li> 
             </ul>
         </div>
     </div>
 </template>
 
 <script>
+import {mapState} from 'vuex'
+
 export default {
-    name: 'Header'
+    name: 'Header',
+    computed: { ...mapState('login', ['loginToken']) }
 }
 </script>
 

@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 
 import test from '@/store/modules/test'
 import memo from '@/store/modules/memo'
+import login from '@/store/modules/login'
 
 Vue.use(Vuex)
 
@@ -50,6 +51,7 @@ export default new Vuex.Store({
    */
   modules: {
     test,
-    memo
+    memo,
+    login
   }
 })
