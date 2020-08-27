@@ -1,0 +1,16 @@
+package com.spring.webservice.utill;
+
+import java.security.SecureRandom;
+
+public class MakeToken {
+	
+	public static String NewToken() {
+		
+		SecureRandom random = new SecureRandom();
+		byte bytes[] = new byte[20];
+		random.nextBytes(bytes);
+		String token = bytes.toString();
+		
+		return token;
+	}
+}
