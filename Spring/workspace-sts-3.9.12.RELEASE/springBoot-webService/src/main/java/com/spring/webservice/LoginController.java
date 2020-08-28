@@ -73,43 +73,77 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	
 	// 로그인
 	@CrossOrigin(origins = "http://localhost:8080")
-	@RequestMapping(value = "/LoginChk", method = RequestMethod.POST)
+	@RequestMapping(value = "/Login", method = RequestMethod.POST)
 	@ResponseBody
 	public List<String> LoginChk(Locale locale, Model model, @RequestBody loginVO loginVO, HttpServletRequest request) {
-		System.out.println("## LoginChk ##");
+		System.out.println("## Login ##");
 		System.out.println(loginVO.getMember_id());
 		
-		HttpSession session = request.getSession();
-
-		// MEMBER 정보 조회
-		// 없으면 LIST RESULT = 1로 반환
+		HttpSession session = request.getSession(true);
+		
 		int rst = sqlSession.selectOne("login.loginChk", loginVO);
 		ArrayList<String> LoginResultInfo = new ArrayList<String>();
 		
-		// 있으면 AccessKey (TOKEN) 생성
-		// 세션 등록
-		// AccessKey(TOKEN), RESULT = 0 으로 반환
 		String result = "";
 		String token = MakeToken.NewToken(100);
 		
 		if ( rst > 0) {
-			result = "0";
-			LoginResultInfo.add(result);
-			LoginResultInfo.add(token);
 			
-			loginVO loginInfo = sqlSession.selectOne("login.getLoginInfo", loginVO);
+			loginVO.setMember_token(token);
+			int updateToken = sqlSession.update("login.setMemberToken", loginVO);
 			
-			session.setAttribute("MEMBER_NUM", loginInfo.getMember_num());
-			session.setAttribute("MemberToken", token);
+			if (updateToken > 0) {
+				result = "0";
+				LoginResultInfo.add(result);
+				LoginResultInfo.add(token);
 			
-			String aaa = (String) session.getAttribute("MemberToken");
-			System.out.println(aaa);
-			
+			} else {
+				result = "1";
+				LoginResultInfo.add(result);
+			}
 		} else {
 			result = "1";
 			LoginResultInfo.add(result);
 		}
-	
 		return LoginResultInfo;
+	}
+	
+	// 로그아웃
+	@CrossOrigin(origins = "http://localhost:8080")
+	@RequestMapping(value = "/Logout", method = RequestMethod.POST)
+	@ResponseBody
+	public String Logout(Locale locale, Model model, @RequestBody loginVO loginVO, HttpServletRequest request) {
+		System.out.println("## Logout ##");
+		System.out.println(loginVO.getMember_token());
+		String result = "";
+		
+		int tokenCount = sqlSession.selectOne("login.getTokenCount", loginVO);
+		
+		if ( tokenCount > 0 ) {
+			loginVO lvo = sqlSession.selectOne("login.getTokenInfo", loginVO);
+			
+			if (lvo.getMember_token().equals("")) {
+				result = "100";
+			} 
+	
+			String getToken = lvo.getMember_token();
+			
+			if (!loginVO.getMember_token().equals(getToken)) {
+				result = "100";
+			}
+			
+			loginVO.setMember_num(lvo.getMember_num());
+			int TokenReset = sqlSession.update("login.TokenReset", loginVO);
+			
+			if ( TokenReset > 0 ) {
+				result = "0";
+			} else {
+				result = "1";
+			}
+		} else {
+			result = "100";
+		}
+		
+		return result;
 	}
 }

@@ -36,4 +36,29 @@
 		  FROM MEMBER
 	     WHERE MEMBER_ID = #{member_id}
 	</select>
+	
+	
+	<update id="setMemberToken" parameterType="com.spring.webservice.vo.loginVO">
+		UPDATE MEMBER
+		   SET MEMBER_TOKEN = #{member_token}
+		 WHERE MEMBER_ID = #{member_id}
+	</update>
+	
+	<select id="getTokenCount" resultType="int" parameterType="com.spring.webservice.vo.loginVO">
+		SELECT COUNT(*)
+		  FROM MEMBER
+	     WHERE MEMBER_TOKEN = #{member_token}
+	</select>
+	
+	<select id="getTokenInfo" resultType="com.spring.webservice.vo.loginVO" parameterType="com.spring.webservice.vo.loginVO">
+		SELECT *
+		  FROM MEMBER
+	     WHERE MEMBER_TOKEN = #{member_token}
+	</select>
+	
+	<update id="TokenReset" parameterType="com.spring.webservice.vo.loginVO">
+		UPDATE MEMBER
+		   SET MEMBER_TOKEN = ""
+		 WHERE MEMBER_NUM = #{member_num}
+	</update>
  </mapper>
