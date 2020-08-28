@@ -24,7 +24,7 @@ export default {
      * computed: { ...mapGetters('sample', ['todosCount']) }
      */
     getters: {
-      todosCount: state => {
+      getloginToken: state => {
         return state.loginToken
       }
     },
@@ -42,116 +42,75 @@ export default {
      * @param {array} payload
      */
     Login (state, payload) {
-       axios.post('http://localhost:9090/webservice/LoginChk', { 
-          member_id: payload.id,
-          member_password: payload.password
+      console.log('## Login ##')
+      axios.post('http://localhost:9090/webservice/Login', { 
+        member_id: payload.id,
+        member_password: payload.password
+      })
+      .then((result) => {
+          if (result.status === 200) {
+            if (result.data[0] == 0 ) {
+              console.log(result.data)
+              state.loginResult = 'true'
+              state.loginToken = result.data[1]
+              console.log(state.loginResult)
+              console.log(state.loginToken)
+              localStorage.setItem('loginAuth', state.loginResult)
+              localStorage.setItem('loginToken', state.loginToken)
+              alert('로그인 성공')
+            } else if (result.data[0] == 1) {
+              console.log(result.data)
+              state.loginResult = false
+              console.log(state.loginResult)
+              alert("아이디 또는 비밀번호가 일치하지 않습니다.")
+            }
+          } else {
+            alert("로그인 실패하였습니다. 관리자에게 문의해주세요.")
+          }
+      })
+      .catch(e => {
+          alert("Error : 관리자에게 문의해주세요.")
+          console.log(e)
+      }) 
+    },
+  /**
+   * 로그아웃
+   *
+   * @param {object} state
+   * @param {array} payload
+   */
+    Logout (state, payload) {
+      console.log('## Logout ##')
+      console.log(payload.MemberToken)
+      axios.post('http://localhost:9090/webservice/Logout', { 
+          member_token: payload.MemberToken,
         })
         .then((result) => {
-            if (result.status === 200) {
-              if (result.data[0] == 0 ) {
-                console.log(result.data)
-                state.loginResult = result.data[0]
-                state.loginToken = result.data[1]
-                console.log(state.loginToken)
-                alert('로그인 성공')
-              } else if (result.data[0] == 1) {
-                console.log(result.data)
-                state.loginResult = result.data[0]
-                console.log(state.loginResult)
-                alert("아이디 또는 비밀번호가 일치하지 않습니다.")
-              }
+          console.log(result)
+          if (result.status === 200) {
+            if (result.data === 0) {
+              localStorage.removeItem('loginAuth');
+              localStorage.removeItem('loginToken');
+              state.loginResult = 'true'
+              state.loginToken = result.data[1]
+              alert("로그아웃을 완료하였습니다.")
+            } else if ( result.data === 100 ) {
+              localStorage.removeItem('loginAuth');
+              localStorage.removeItem('loginToken');
+              state.loginResult = 'true'
+              state.loginToken = result.data[1]
+              alert("세션이 만료되었습니다. 다시 로그인을 해주세요.")
             } else {
-              alert("로그인 실패하였습니다. 관리자에게 문의해주세요.")
+              alert('로그아웃 실패. 관리자에게 문의해주세요.')
             }
+          }
         })
         .catch(e => {
             alert("Error : 관리자에게 문의해주세요.")
             console.log(e)
         }) 
-     },
-    /**
-     * 메모 등록
-     *
-     * @param {object} state
-     * @param {array} payload
-     */
-     addMemo (state, payload) {
-       console.log('## addMemo ##')
-        const memoData = { content: payload.content, id: payload.id, regDate: payload.regDate }
-        state.memoList.push(memoData)
-        
-        axios.post('http://localhost:9090/webservice/addMemo', { 
-           content: payload.content,
-           id: payload.id,
-           regDate: payload.regDate,
-           curDate: payload.curDate
-         })
-         .then((result) => {
-            if (result.data === 0) {
-              alert("등록을 완료하였습니다.")
-            } else {
-              alert("등록을 실패하였습니다. 관리자에게 문의해주세요.")
-            }
-         })
-         .catch(e => {
-             alert("Error : 관리자에게 문의해주세요.")
-             console.log(e)
-         }) 
-      },
-    /**
-     * 메모 삭제
-     *
-     * @param {object} state
-     * @param {array} payload
-     */
-     deleteMemo (state, payload) {
-         console.log('## DeleteMemo ##')
-         state.memoList.splice(payload.index, 1)
-         
-         axios.post('http://localhost:9090/webservice/deleteMemo', { 
-            id: payload.item.id
-         })
-         .then((result) => {
-             if (result.data === 0) {
-               alert("삭제를 완료하였습니다")
-             } else {
-               alert("삭제를 실패하였습니다. 관리자에게 문의해주세요.")
-             }
-         })
-         .catch(e => {
-             alert("Error : 관리자에게 문의해주세요.")
-             console.log(e)
-         })
-      },
-     /**
-      * 메모 수정
-      *
-      * @param {object} state
-      * @param {Object} payload
-      */
-      rewriteMemo (state, payload) {
-        console.log('## rewriteMemo ##')
-        state.memoList[payload.index].content = payload.content
-        state.memoList[payload.index].modifyDate = payload.modifyDate
-
-        axios.post('http://localhost:9090/webservice/rewriteMemo', { 
-            id: payload.item.id,
-            content: payload.content,
-            modifyDate: payload.modifyDate
-         })
-         .then((result) => {
-             if (result.data === 0) {
-               alert("수정을 완료하였습니다")
-             } else {
-               alert("수정을 실패하였습니다. 관리자에게 문의해주세요.")
-             }
-         })
-         .catch(e => {
-             alert("Error : 관리자에게 문의해주세요.")
-             console.log(e)
-         })
-      }
-    },
+    }
+  },
   
     /**
      * component의 method와 유사한 역할을 합니다.

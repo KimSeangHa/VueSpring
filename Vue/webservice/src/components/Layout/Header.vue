@@ -7,20 +7,28 @@
                 <li><router-link to="/MemoApp">API manage</router-link></li>
                 <li><router-link to="/MemoApp">MemoApp</router-link></li>
                 <li><router-link to="/MemoApp">Supplement</router-link></li> 
-                <li v-if="loginToken" style="float:right;"><router-link to="/Login">Logout</router-link></li> 
-                <li v-if="!loginToken" style="float:right;"><router-link to="/Login">Login</router-link></li> 
-                <li style="float:right;"><router-link to="/Register">Sign Up</router-link></li> 
+                <li v-if="loginAuth" style="float:right;"><div @click="Logout">Logout</div></li> 
+                <li v-if="!loginAuth" style="float:right;"><router-link to="/Login">Login</router-link></li> 
+                <li v-if="!loginAuth" style="float:right;"><router-link to="/Register">Sign Up</router-link></li> 
             </ul>
         </div>
     </div>
 </template>
 
 <script>
-import {mapState} from 'vuex'
-
 export default {
     name: 'Header',
-    computed: { ...mapState('login', ['loginToken']) }
+    data: function() {
+        return {
+            loginAuth: localStorage.getItem('loginAuth'),
+            memberToken: localStorage.getItem('loginToken')
+        }
+    },
+    methods: {
+        Logout () {
+            this.$store.commit('login/Logout', { MemberToken: this.memberToken })
+        }
+    }
 }
 </script>
 
@@ -31,6 +39,12 @@ export default {
     height: 100px;
     background-color: #172d58;
     position: relative;
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+    .header-wrap {
+        height: 300px;
+    }
 }
 
 .header-form {

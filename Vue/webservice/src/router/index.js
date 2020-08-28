@@ -4,6 +4,12 @@ import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
+const requireAuth = () => (from, to, next) => {
+  if (localStorage.getItem('loginAuth')) return next() // loginResult === true면 페이지 이동
+  alert('로그인이 필요한 서비스입니다.')
+  next('/Login') // loginResult === false면 다시 로그인 화면으로 이동
+}
+
   const routes = [
   {
     path: '/',
@@ -31,7 +37,8 @@ Vue.use(VueRouter)
   {
     path: '/MemoApp',
     name: 'MemoApp',
-    component: () => import('@/views/MemoApp.vue')
+    component: () => import('@/views/MemoApp.vue'),
+    beforeEnter: requireAuth()
   },
   {
     path: '/Register',
