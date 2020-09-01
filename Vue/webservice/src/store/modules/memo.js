@@ -1,4 +1,5 @@
 import axios from 'axios'
+import $store from '@/store'
 
 export default {
     /**
@@ -65,16 +66,19 @@ export default {
        console.log('## addMemo ##')
         const memoData = { content: payload.content, id: payload.id, regDate: payload.regDate }
         state.memoList.push(memoData)
-        
+        console.log(payload.member_token)
         axios.post('http://localhost:9090/webservice/addMemo', { 
            content: payload.content,
            id: payload.id,
            regDate: payload.regDate,
-           curDate: payload.curDate
+           curDate: payload.curDate,
+           member_token: payload.member_token
          })
          .then((result) => {
             if (result.data === 0) {
               alert("등록을 완료하였습니다.")
+            } else if (result.data === 100) {
+              $store.commit('login/Logout', { MemberToken: this.memberToken })
             } else {
               alert("등록을 실패하였습니다. 관리자에게 문의해주세요.")
             }

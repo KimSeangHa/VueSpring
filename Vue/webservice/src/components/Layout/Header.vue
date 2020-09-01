@@ -2,31 +2,37 @@
     <div class="header-wrap">
         <div class="header-form">
             <ul>
-                <li><router-link to="/MemoApp">Configuration</router-link></li>
-                <li><router-link to="/MemoApp">Manual</router-link></li>
-                <li><router-link to="/MemoApp">API manage</router-link></li>
+                <li><router-link to="/MemoApp">구조</router-link></li>
+                <li><router-link to="/MemoApp">설명</router-link></li>
+                <li><router-link to="/APIManage">API 관리</router-link></li>
                 <li><router-link to="/MemoApp">MemoApp</router-link></li>
-                <li><router-link to="/MemoApp">Supplement</router-link></li> 
-                <li v-if="loginAuth" style="float:right;"><div @click="Logout">Logout</div></li> 
-                <li v-if="!loginAuth" style="float:right;"><router-link to="/Login">Login</router-link></li> 
-                <li v-if="!loginAuth" style="float:right;"><router-link to="/Register">Sign Up</router-link></li> 
+                <li><router-link to="/MemoApp">추가예정</router-link></li> 
+                <li v-if="loginAuth"  style="float:right;"><div @click="Logout">로그아웃</div></li> 
+                <li v-if="!loginAuth" style="float:right;"><router-link to="/Login">로그인</router-link></li> 
+                <li v-if="!loginAuth" style="float:right;"><router-link to="/Register">회원가입</router-link></li> 
             </ul>
         </div>
     </div>
 </template>
 
-<script>
+<script> 
 export default {
     name: 'Header',
     data: function() {
         return {
-            loginAuth: localStorage.getItem('loginAuth'),
-            memberToken: localStorage.getItem('loginToken')
         }
     },
     methods: {
         Logout () {
             this.$store.commit('login/Logout', { MemberToken: this.memberToken })
+        }
+    },
+    computed: {
+        loginAuth: function() {
+            return this.$store.state.login.loginResult
+        },
+        memberToken: function() {
+            return this.$store.state.login.loginToken
         }
     }
 }

@@ -41,19 +41,26 @@ export default {
                 return false
             }
             
-            const { content } = this
+            const { content, member_token } = this
             const id = new Date().getTime()
             const regDate = this.$moment().format('YYYY-MM-DD HH:mm:ss')
             const curDate = this.$moment().format('YYYY-MM-DD')
             console.log(curDate);
-            this.$store.commit('memo/addMemo', { content, id, regDate, curDate })
+            this.$store.commit('memo/addMemo', { content, id, regDate, curDate, member_token })
             this.reset()
         },
         Makebot () {
-            axios.post('http://localhost:9090/webservice/Makebot')
+            axios.post('http://localhost:9090/webservice/Makebot', { 
+                member_token: this.member_token
+            })
             .then((result) => {
+                console.log(result)
                 if (result.status === 200) {
-                    alert("Bot 생성 완료 !")
+                    if(result.data === 100) {
+                        this.$store.commit('login/Logout', { MemberToken: this.memberToken })
+                    } else {
+                        alert("Bot 생성 완료 !")
+                    }
                 } else {
                     alert("Bot 생성 실패. 관리자에게 문의해주세요.")
                 }
@@ -68,6 +75,11 @@ export default {
             const enter = '\n'
             this.content = this.content + enter
             console.log(this.content)
+        }
+    },
+    computed: {
+        member_token: function() {
+            return this.$store.state.login.loginToken
         }
     }
 }

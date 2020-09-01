@@ -49,6 +49,12 @@ const requireAuth = () => (from, to, next) => {
     path: '/Login',
     name: 'Login',
     component: () => import('@/views/Login.vue')
+  },
+  {
+    path: '/APIManage',
+    name: 'APIManage',
+    component: () => import('@/views/APIManage.vue'),
+    beforeEnter: requireAuth()
   }
 ]
 

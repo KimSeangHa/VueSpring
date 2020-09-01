@@ -1,4 +1,5 @@
 import axios from 'axios'
+import router from '@/router/index'
 
 export default {
     /**
@@ -24,8 +25,8 @@ export default {
      * computed: { ...mapGetters('sample', ['todosCount']) }
      */
     getters: {
-      getloginToken: state => {
-        return state.loginToken
+      getLoginResult: state => {
+        return state.loginResult
       }
     },
   
@@ -58,6 +59,7 @@ export default {
               localStorage.setItem('loginAuth', state.loginResult)
               localStorage.setItem('loginToken', state.loginToken)
               alert('로그인 성공')
+              router.push('MemoApp')
             } else if (result.data[0] == 1) {
               console.log(result.data)
               state.loginResult = false
@@ -91,17 +93,20 @@ export default {
             if (result.data === 0) {
               localStorage.removeItem('loginAuth');
               localStorage.removeItem('loginToken');
-              state.loginResult = 'true'
-              state.loginToken = result.data[1]
+              state.loginResult = 'false'
+              state.loginToken = ''
               alert("로그아웃을 완료하였습니다.")
+              router.push('Login')
             } else if ( result.data === 100 ) {
               localStorage.removeItem('loginAuth');
               localStorage.removeItem('loginToken');
-              state.loginResult = 'true'
-              state.loginToken = result.data[1]
+              state.loginResult = false
+              state.loginToken = ''
               alert("세션이 만료되었습니다. 다시 로그인을 해주세요.")
+              router.push('Login')
             } else {
               alert('로그아웃 실패. 관리자에게 문의해주세요.')
+              router.push('Login')
             }
           }
         })
