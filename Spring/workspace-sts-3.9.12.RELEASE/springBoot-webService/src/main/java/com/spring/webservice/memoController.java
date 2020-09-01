@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.webservice.utill.Telegram;
 import com.spring.webservice.utill.TelegramSend;
+import com.spring.webservice.vo.loginVO;
 import com.spring.webservice.vo.memoVO;
 
 @RestController
@@ -38,17 +39,41 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 		System.out.println("## AddMemo ##");
 		System.out.println(memoVO.getId());
 		System.out.println(memoVO.getContent());
+		System.out.println(memoVO.getMember_token());
 		
-		memoVO.setContent(memoVO.getContent().replace("\n", "%0A"));
 		
-		int rst = sqlSession.insert("memo.addMemo", memoVO);
+		loginVO loginVO = new loginVO();
+		loginVO.setMember_token(memoVO.getMember_token());
+		int tokenCount = sqlSession.selectOne("login.getTokenCount", loginVO);
 		String result = "";
 		
-		if ( rst > 0) {
-			result = "0";
-			TelegramSend.SendMessage(memoVO.getContent());
+		// 로그인체크
+		if ( tokenCount > 0 ) {
+			loginVO lvo = sqlSession.selectOne("login.getTokenInfo", loginVO);
+			
+			if (lvo.getMember_token().equals("")) {
+				result = "100";
+			} 
+	
+			String getToken = lvo.getMember_token();
+			if (!loginVO.getMember_token().equals(getToken)) {
+				result = "100";
+			}
+			
+			memoVO.setMember_num(lvo.getMember_num());
+			memoVO.setContent(memoVO.getContent().replace("\n", "%0A"));
+			
+			int rst = sqlSession.insert("memo.addMemo", memoVO);
+			
+			
+			if ( rst > 0) {
+				result = "0";
+				TelegramSend.SendMessage(memoVO.getContent());
+			} else {
+				result = "1";
+			}
 		} else {
-			result = "1";
+			result = "100";
 		}
 		
 		return result;
@@ -118,11 +143,37 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	@CrossOrigin(origins = "http://localhost:8080")
 	@RequestMapping(value = "/Makebot", method = RequestMethod.POST)
 	@ResponseBody
-	public String Makebot(Locale locale, Model model) {
+	public String Makebot(Locale locale, Model model, @RequestBody memoVO memoVO) {
 		System.out.println("## Make Bot ## ");
-	
-		Telegram.makeBot();
+		System.out.println(memoVO.getMember_token());
 		
-		return "0";
+		loginVO loginVO = new loginVO();
+		loginVO.setMember_token(memoVO.getMember_token());
+		int tokenCount = sqlSession.selectOne("login.getTokenCount", loginVO);
+		String result = "";
+		
+		// 로그인체크
+		if ( tokenCount > 0 ) {
+			loginVO lvo = sqlSession.selectOne("login.getTokenInfo", loginVO);
+			
+			if (lvo.getMember_token().equals("")) {
+				result = "100";
+				return result;
+			} 
+	
+			String getToken = lvo.getMember_token();
+			if (!loginVO.getMember_token().equals(getToken)) {
+				result = "100";
+				return result;
+			}
+			
+			Telegram.makeBot();
+			result = "0";
+			return "0";
+		} else {
+			result = "100";
+		}
+		
+		return result;
 	}
 }

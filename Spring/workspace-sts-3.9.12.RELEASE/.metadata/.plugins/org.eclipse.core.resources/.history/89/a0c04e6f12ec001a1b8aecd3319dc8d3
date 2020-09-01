@@ -1,0 +1,47 @@
+package com.spring.webservice;
+
+import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.spring.webservice.vo.loginVO;
+
+@RestController
+public class botController {
+		private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+		
+		@Autowired
+		private SqlSession sqlSession;
+		
+		// BOT INFO µî·Ï
+		@CrossOrigin(origins = "http://localhost:8080")
+		@RequestMapping(value = "/registerBot", method = RequestMethod.POST)
+		@ResponseBody
+		public String MemberChk(Locale locale, Model model, @RequestBody loginVO loginVO, HttpServletRequest request) {
+			System.out.println("## MemberChk ##");
+			System.out.println(loginVO.getMember_id());
+			
+			int rst = sqlSession.selectOne("login.MemberChk", loginVO);
+			String result = "";
+			
+			if ( rst == 0) {
+				result = "0";
+			} else {
+				result = "1";
+			}
+		
+			return result;
+		}
+}

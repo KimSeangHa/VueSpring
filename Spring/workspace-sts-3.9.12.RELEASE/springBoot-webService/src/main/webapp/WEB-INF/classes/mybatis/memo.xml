@@ -10,11 +10,13 @@
 		            , ID
 		            , REGDATE
 		            , CURDATE
+		            , MEMBER_NUM
 		            )
 		     VALUES ( #{content}
 		            , #{id}
 		            , #{regDate}
 		            , #{curDate}
+		            , #{member_num}
 		            )
  	</insert>
  	
