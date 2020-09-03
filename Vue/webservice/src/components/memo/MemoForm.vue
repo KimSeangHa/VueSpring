@@ -58,6 +58,8 @@ export default {
                 if (result.status === 200) {
                     if(result.data === 100) {
                         this.$store.commit('login/Logout', { MemberToken: this.memberToken })
+                    } else if (result.data === 1) {
+                        alert("권한이 없습니다. 관리자를 통하여 실행해주세요.")
                     } else {
                         alert("Bot 생성 완료 !")
                     }

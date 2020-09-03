@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
@@ -14,7 +13,7 @@ const requireAuth = () => (from, to, next) => {
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: () => import('@/views/Login.vue')
   },
   {
     path: '/about',
@@ -55,6 +54,11 @@ const requireAuth = () => (from, to, next) => {
     name: 'APIManage',
     component: () => import('@/views/APIManage.vue'),
     beforeEnter: requireAuth()
+  },
+  {
+    path: '/Diagram',
+    name: 'Diagram',
+    component: () => import('@/views/Diagram.vue')
   }
 ]
 

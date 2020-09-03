@@ -43,14 +43,22 @@ export default {
         this.getMemoList ()  
     },
     computed: {
-        ...mapState('memo', ['memoList'])
+        member_token: function() {
+            return this.$store.state.login.loginToken
+        },
+
+        ...mapState('memo', ['memoList']),
+        
+
     },
     methods: {
         getMemoList () {
-            this.$store.commit('memo/getMemoList')
+            const member_token = this.member_token
+            this.$store.commit('memo/getMemoList', member_token )
         },
         deleteMemo (item, index) {
-            this.$store.commit('memo/deleteMemo', { item, index })
+            const member_token = this.member_token
+            this.$store.commit('memo/deleteMemo', { item, index, member_token })
         },
         modify (event, index) {
             console.log(index)
@@ -65,7 +73,8 @@ export default {
 
             const modifyDate = this.$moment().format('YYYY-MM-DD HH:mm:ss')
             console.log(content, index, item, modifyDate)
-            this.$store.commit('memo/rewriteMemo', { content, index, item, modifyDate})
+            const member_token = this.member_token
+            this.$store.commit('memo/rewriteMemo', { content, index, item, modifyDate, member_token})
         },
         enterFunc () {
             console.log('aaa')

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import $store from '@/store'
+import router from '@/router/index'
 
 export default {
     /**
@@ -41,14 +42,21 @@ export default {
      * @param {object} state
      * @param {array} payload
      */
-     getMemoList (state) {
-       axios.post('http://localhost:9090/webservice/getMemoList')
+     getMemoList (state, member_token) {
+        axios.post('http://localhost:9090/webservice/getMemoList', {
+          member_token: member_token
+        })
         .then((result) => {
             if (result.status === 200) {
               console.log(result.data)
-              state.memoList = result.data
+
+              if ( result.data === "" ) {
+                $store.commit('login/Logout', { MemberToken: member_token })
+              } else {
+                state.memoList = result.data
+              }
             } else {
-              alert("등록을 실패하였습니다. 관리자에게 문의해주세요.")
+              alert("메모 가져오기 실패하였습니다. 관리자에게 문의해주세요.")
             }
         })
         .catch(e => {
@@ -79,6 +87,9 @@ export default {
               alert("등록을 완료하였습니다.")
             } else if (result.data === 100) {
               $store.commit('login/Logout', { MemberToken: this.memberToken })
+            } else if (result.data === 2) {
+              alert("API 관리메뉴를 통하여 텔레그램 API를 등록해주세요.")
+              router.push('/APIManage')
             } else {
               alert("등록을 실패하였습니다. 관리자에게 문의해주세요.")
             }
@@ -99,14 +110,17 @@ export default {
          state.memoList.splice(payload.index, 1)
          
          axios.post('http://localhost:9090/webservice/deleteMemo', { 
-            id: payload.item.id
+            id: payload.item.id,
+            member_token: payload.member_token
          })
          .then((result) => {
-             if (result.data === 0) {
-               alert("삭제를 완료하였습니다")
-             } else {
-               alert("삭제를 실패하였습니다. 관리자에게 문의해주세요.")
-             }
+            if (result.data === 0) {
+              alert("삭제를 완료하였습니다")
+            } else if (result.data === 100) {
+              $store.commit('login/Logout', { MemberToken: this.memberToken })
+            }else {
+              alert("삭제를 실패하였습니다. 관리자에게 문의해주세요.")
+            }
          })
          .catch(e => {
              alert("Error : 관리자에게 문의해주세요.")
@@ -127,14 +141,20 @@ export default {
         axios.post('http://localhost:9090/webservice/rewriteMemo', { 
             id: payload.item.id,
             content: payload.content,
-            modifyDate: payload.modifyDate
+            modifyDate: payload.modifyDate,
+            member_token: payload.member_token
          })
          .then((result) => {
-             if (result.data === 0) {
-               alert("수정을 완료하였습니다")
-             } else {
-               alert("수정을 실패하였습니다. 관리자에게 문의해주세요.")
-             }
+            if (result.data === 0) {
+              alert("수정을 완료하였습니다")
+            } else if ( result.data === 100)  {
+              $store.commit('login/Logout', { MemberToken: this.memberToken })
+            } else if (result.data === 2) {
+              alert("API 관리메뉴를 통하여 텔레그램 API를 등록해주세요.")
+              router.push('/APIManage')
+            } else {
+              alert("수정을 실패하였습니다. 관리자에게 문의해주세요.")
+            }
          })
          .catch(e => {
              alert("Error : 관리자에게 문의해주세요.")

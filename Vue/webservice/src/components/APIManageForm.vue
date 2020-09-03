@@ -1,13 +1,16 @@
 <template>
     <div>
         <div class="sub_content">
-            <p>*Bot Token / chat_id 확인 방법 : <a href="https://gabrielkim.tistory.com/entry/Telegram-Bot-Token-%EB%B0%8F-Chat-Id-%EC%96%BB%EA%B8%B0">Telegram Bot Check</a></p>
+            <p style="font-size:12px;">*관리자를 통하여 Bot을 대화방에 초대해주세요.</p>
+            <br>
+            <p style="font-size:12px;">*ChatID(채팅방ID) 확인 방법 : <a href="https://gabrielkim.tistory.com/entry/Telegram-Bot-Token-%EB%B0%8F-Chat-Id-%EC%96%BB%EA%B8%B0">Telegram Bot Check</a></p>
+            <p style="font-size:12px; color:red">*Bot Tokent : 수정할 수 없습니다.</p>
         </div>
         <div class="manage_form">
             <table class="manage_table">
-                <tr>
+                <tr v-if="bot_token">
                     <td class="manage_text">Bot Token: </td>
-                    <td class="manage_content"><input v-model='bot_token' class="token_form" type="text" placeholder="Bot Token을 입력해주세요."></td>
+                    <td class="manage_content"><input readonly :value="bot_token" class="token_form" type="text" placeholder="Bot Token을 입력해주세요."></td>
                 </tr>
                 <tr>
                     <td class="manage_text">Chat ID: </td>
@@ -67,7 +70,6 @@ export default {
         
             axios.post('http://localhost:9090/webservice/RegisterBotInfo', { 
                 member_token: this.memberToken,
-                bot_token: this.bot_token,
                 chat_id: this.chat_id,
                 bot_regdate: regDate
             })
@@ -91,7 +93,6 @@ export default {
             console.log("## Modify Bot Info ##")
             axios.post('http://localhost:9090/webservice/ModifyBotInfo', { 
                 member_token: this.memberToken,
-                bot_token: this.bot_token,
                 chat_id: this.chat_id
             })
             .then((result) => {
