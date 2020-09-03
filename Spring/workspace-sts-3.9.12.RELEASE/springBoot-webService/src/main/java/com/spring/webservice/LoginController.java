@@ -79,8 +79,6 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 		System.out.println("## Login ##");
 		System.out.println(loginVO.getMember_id());
 		
-		HttpSession session = request.getSession(true);
-		
 		int rst = sqlSession.selectOne("login.loginChk", loginVO);
 		ArrayList<String> LoginResultInfo = new ArrayList<String>();
 		
@@ -124,12 +122,13 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 			
 			if (lvo.getMember_token().equals("")) {
 				result = "100";
+				return result;
 			} 
 	
 			String getToken = lvo.getMember_token();
-			
 			if (!loginVO.getMember_token().equals(getToken)) {
 				result = "100";
+				return result;
 			}
 			
 			loginVO.setMember_num(lvo.getMember_num());

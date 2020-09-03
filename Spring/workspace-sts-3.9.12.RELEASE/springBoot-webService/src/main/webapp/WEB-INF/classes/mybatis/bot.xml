@@ -7,12 +7,10 @@
 	<insert id="InsertBot" parameterType="com.spring.webservice.vo.botVO">
 		INSERT 
 		  INTO BOT_INFO ( MEMBER_NUM
-		           , BOT_TOKEN
 		           , CHAT_ID
 		           , BOT_REGDATE
 		            )
 		     VALUES ( #{member_num}
-		            , #{bot_token}
 		            , #{chat_id}
 		            , #{bot_regdate}
 		            )
@@ -26,8 +24,7 @@
  	
  	<update id="ModifyBotInfo" parameterType="com.spring.webservice.vo.botVO">
 		UPDATE BOT_INFO
-		   SET BOT_TOKEN = #{bot_token}
-		     , CHAT_ID = #{chat_id}
+		   SET CHAT_ID = #{chat_id}
 		 WHERE MEMBER_NUM = #{member_num}
 	</update>
  </mapper>

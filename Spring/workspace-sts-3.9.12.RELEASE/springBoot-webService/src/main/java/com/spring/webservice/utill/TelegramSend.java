@@ -7,14 +7,14 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 public class TelegramSend {
-	public static void SendMessage(String Content){
+	public static void SendMessage(String Content, String AUTH_KEY, String CHAT_ID){
 		
 		System.out.println("@@@@@@@@@@");
 		System.out.println(Content);
-	
+		
 	    String BOT_NAME = "Kim_Scheduler_Bot"; //Bot Name
-	    String AUTH_KEY = "1334891991:AAGkrXOd3oPP92tQzRclNY4nmxwuvMPIUqM"; //Bot Auth-Key
-	    String CHAT_ID = "-381510796";
+	    // String AUTH_KEY = "1334891991:AAGkrXOd3oPP92tQzRclNY4nmxwuvMPIUqM"; //Bot Auth-Key
+	    // String CHAT_ID = "-381510796";
 	    // String CHAT_ID = "-381510796"; //Chat ID 616043197
 	    String TEXT = "To-do Register Success ! %0ASend a message to the bot.";
 	    /* Content.replace("\n", "%0A"); */

@@ -8,6 +8,7 @@ public class loginVO {
 	private String member_regDate;
 	private String member_token;
 	private String login_result;
+	private int member_level;
 	
 	public int getMember_num() {
 		return member_num;
@@ -50,6 +51,12 @@ public class loginVO {
 	}
 	public void setLogin_result(String login_result) {
 		this.login_result = login_result;
+	}
+	public int getMember_level() {
+		return member_level;
+	}
+	public void setMember_level(int member_level) {
+		this.member_level = member_level;
 	}
 	
 }

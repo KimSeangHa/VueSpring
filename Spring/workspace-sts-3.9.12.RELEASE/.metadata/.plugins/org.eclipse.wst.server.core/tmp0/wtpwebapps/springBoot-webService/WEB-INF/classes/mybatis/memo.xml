@@ -24,6 +24,7 @@
 		DELETE 
 		  FROM MEMO
 		 WHERE ID = #{id}
+		   AND MEMBER_NUM = #{member_num}
 	</delete>
 	
  	<update id="rewriteMemo" parameterType="com.spring.webservice.vo.memoVO">
@@ -31,15 +32,17 @@
 		   SET CONTENT = #{content}
 		     , MODIFYDATE = #{modifyDate}
 		 WHERE ID = #{id}
+		   AND MEMBER_NUM = #{member_num}
 	</update>
 	
-	<select id="getMemoList" resultType="com.spring.webservice.vo.memoVO">
+	<select id="getMemoList" parameterType="com.spring.webservice.vo.memoVO" resultType="com.spring.webservice.vo.memoVO">
 		SELECT NUM
 		     , REPLACE(CONTENT, "%0A", "\n") AS CONTENT
 		     , ID
 		     , REGDATE
 		     , IFNULL(MODIFYDATE, "") AS MODIFYDATE
 		  FROM MEMO
+		 WHERE MEMBER_NUM = #{member_num}
 	  ORDER BY REGDATE DESC
 	</select>
  	

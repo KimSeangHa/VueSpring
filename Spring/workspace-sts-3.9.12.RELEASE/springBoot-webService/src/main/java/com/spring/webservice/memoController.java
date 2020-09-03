@@ -1,11 +1,9 @@
 package com.spring.webservice;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -21,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.webservice.utill.Telegram;
 import com.spring.webservice.utill.TelegramSend;
+import com.spring.webservice.vo.botVO;
 import com.spring.webservice.vo.loginVO;
 import com.spring.webservice.vo.memoVO;
 
@@ -53,11 +52,13 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 			
 			if (lvo.getMember_token().equals("")) {
 				result = "100";
+				return result;
 			} 
 	
 			String getToken = lvo.getMember_token();
 			if (!loginVO.getMember_token().equals(getToken)) {
 				result = "100";
+				return result;
 			}
 			
 			memoVO.setMember_num(lvo.getMember_num());
@@ -65,10 +66,24 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 			
 			int rst = sqlSession.insert("memo.addMemo", memoVO);
 			
+			// member_num 별로 auth_key, chat_id 값 가져오기
+			botVO botVO = new botVO();
+			botVO.setMember_num(memoVO.getMember_num());
+			botVO bot = sqlSession.selectOne("bot.getBotInfo", botVO);
+			
+			if ( bot == null ) {
+				result = "2";
+				return result;
+			}
+			
+			System.out.println("########");
+			System.out.println(bot.getBot_token());
+			System.out.println(bot.getChat_id());
+			
 			
 			if ( rst > 0) {
 				result = "0";
-				TelegramSend.SendMessage(memoVO.getContent());
+				TelegramSend.SendMessage(memoVO.getContent(), bot.getBot_token(), bot.getChat_id());
 			} else {
 				result = "1";
 			}
@@ -86,14 +101,40 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	public String deleteMemo(Locale locale, Model model, @RequestBody memoVO memoVO) {
 		System.out.println("## DeleteMemo ## ");
 		System.out.println(memoVO.getId());
-			
-		int rst = sqlSession.delete("memo.deleteMemo", memoVO);
+		System.out.println(memoVO.getMember_token());
+		
+		
+		loginVO loginVO = new loginVO();
+		loginVO.setMember_token(memoVO.getMember_token());
+		int tokenCount = sqlSession.selectOne("login.getTokenCount", loginVO);
 		String result = "";
 		
-		if ( rst > 0) {
-			result = "0";
+		// 로그인체크
+		if ( tokenCount > 0 ) {
+			loginVO lvo = sqlSession.selectOne("login.getTokenInfo", loginVO);
+			
+			if (lvo.getMember_token().equals("")) {
+				result = "100";
+				return result;
+			} 
+	
+			String getToken = lvo.getMember_token();
+			if (!loginVO.getMember_token().equals(getToken)) {
+				result = "100";
+				return result;
+			}
+			
+			memoVO.setMember_num(lvo.getMember_num());
+			int rst = sqlSession.delete("memo.deleteMemo", memoVO);
+			
+			if ( rst > 0) {
+				result = "0";
+			} else {
+				result = "1";
+			}
+			
 		} else {
-			result = "1";
+			result = "100";
 		}
 		
 		return result;
@@ -107,18 +148,52 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 		System.out.println("## RewriteMemo ## ");
 		System.out.println(memoVO.getId());
 		System.out.println(memoVO.getModifyDate());
+		System.out.println(memoVO.getMember_token());
 		
-		memoVO.setContent(memoVO.getContent().replace("\n", "%0A"));
-		int rst = sqlSession.update("memo.rewriteMemo", memoVO);
+		
+		loginVO loginVO = new loginVO();
+		loginVO.setMember_token(memoVO.getMember_token());
+		int tokenCount = sqlSession.selectOne("login.getTokenCount", loginVO);
 		String result = "";
 		
-		if ( rst > 0) {
-			result = "0";
-			TelegramSend.SendMessage(memoVO.getContent());
+		// 로그인체크
+		if ( tokenCount > 0 ) {
+			loginVO lvo = sqlSession.selectOne("login.getTokenInfo", loginVO);
+			
+			if (lvo.getMember_token().equals("")) {
+				result = "100";
+				return result;
+			} 
+	
+			String getToken = lvo.getMember_token();
+			if (!loginVO.getMember_token().equals(getToken)) {
+				result = "100";
+				return result;
+			}
+			
+			memoVO.setMember_num(lvo.getMember_num());
+			memoVO.setContent(memoVO.getContent().replace("\n", "%0A"));
+			int rst = sqlSession.update("memo.rewriteMemo", memoVO);
+			
+			// member_num 별로 auth_key, chat_id 값 가져오기
+			botVO botVO = new botVO();
+			botVO.setMember_num(memoVO.getMember_num());
+			botVO bot = sqlSession.selectOne("bot.getBotInfo", botVO);
+			
+			if ( bot == null ) {
+				result = "2";
+				return result;
+			}
+			
+			if ( rst > 0) {
+				result = "0";
+				TelegramSend.SendMessage(memoVO.getContent(), bot.getBot_token(), bot.getChat_id());
+			} else {
+				result = "1";
+			}
 		} else {
-			result = "1";
+			result = "100";
 		}
-		
 		return result;
 	}
 	
@@ -126,17 +201,40 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	@CrossOrigin(origins = "http://localhost:8080")
 	@RequestMapping(value = "/getMemoList", method = RequestMethod.POST)
 	@ResponseBody
-	public List<memoVO> getListMemo(Locale locale, Model model) {
+	public List<memoVO> getListMemo(Locale locale, Model model, @RequestBody memoVO memoVO) {
 		System.out.println("## getListMemo ## ");
+		System.out.println(memoVO.getMember_token());
 		
-		List<memoVO> getMemoList = sqlSession.selectList("memo.getMemoList");
-		ArrayList<String> errorResult = new ArrayList<String>();
 		
-		if (getMemoList == null) {
-			errorResult.add("ERROR");
+		loginVO loginVO = new loginVO();
+		loginVO.setMember_token(memoVO.getMember_token());
+		int tokenCount = sqlSession.selectOne("login.getTokenCount", loginVO);
+		
+		// 로그인체크
+		if ( tokenCount > 0 ) {
+			loginVO lvo = sqlSession.selectOne("login.getTokenInfo", loginVO);
+			
+			if (lvo.getMember_token().equals("")) {
+				return null;
+			} 
+	
+			String getToken = lvo.getMember_token();
+			if (!loginVO.getMember_token().equals(getToken)) {
+				return null;
+			}
+	
+			memoVO.setMember_num(lvo.getMember_num());
+			List<memoVO> getMemoList = sqlSession.selectList("memo.getMemoList", memoVO);
+			
+			if (getMemoList == null) {
+				return null;
+			}
+			
+			return getMemoList;
+			
+		} else {
+			return null;
 		}
-		
-		return getMemoList;
 	}
 	
 	// 텔레그램 봇 생성
@@ -167,9 +265,14 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 				return result;
 			}
 			
-			Telegram.makeBot();
-			result = "0";
-			return "0";
+			if (lvo.getMember_level() == 3) {
+				Telegram.makeBot();
+				result = "0";
+				return result;
+			} else {
+				result = "1";
+				return result;
+			} 
 		} else {
 			result = "100";
 		}

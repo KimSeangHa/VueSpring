@@ -47,15 +47,16 @@ public class botController {
 				
 				if (lvo.getMember_token().equals("")) {
 					result = "100";
+					return result;
 				} 
 		
 				String getToken = lvo.getMember_token();
 				if (!loginVO.getMember_token().equals(getToken)) {
 					result = "100";
+					return result;
 				}
 				
 				botVO.setMember_num(lvo.getMember_num());
-				
 				int rst = sqlSession.insert("bot.InsertBot", botVO);
 				
 				if ( rst > 0) {
@@ -140,11 +141,13 @@ public class botController {
 				
 				if (lvo.getMember_token().equals("")) {
 					result = "100";
+					return result;
 				} 
 		
 				String getToken = lvo.getMember_token();
 				if (!loginVO.getMember_token().equals(getToken)) {
 					result = "100";
+					return result;
 				}
 				
 				botVO.setMember_num(lvo.getMember_num());
