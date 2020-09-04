@@ -33,4 +33,6 @@
 <fullyQualifiedTypeName name="java.security.SecureRandom"/>
 <fullyQualifiedTypeName name="com.spring.webservice.utill.MakeToken"/>
 <fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="com.spring.webservice.utill.SHA256Util"/>
+<fullyQualifiedTypeName name="com.spring.webservice.utill.MD5Utill"/>
 </qualifiedTypeNameHistroy>

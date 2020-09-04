@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.webservice.utill.MD5Utill;
 import com.spring.webservice.utill.MakeToken;
 import com.spring.webservice.vo.loginVO;
 
@@ -37,7 +38,11 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 		System.out.println("## InsertMember ##");
 		System.out.println(loginVO.getMember_id());
 		System.out.println(loginVO.getMember_name());
+
+		String password = loginVO.getMember_password();
+		password = MD5Utill.encryptMD5(password);
 		
+		loginVO.setMember_password(password);
 		
 		int rst = sqlSession.insert("login.InsertMember", loginVO);
 		String result = "";
@@ -79,6 +84,11 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 		System.out.println("## Login ##");
 		System.out.println(loginVO.getMember_id());
 		
+		String password = loginVO.getMember_password();
+		password = MD5Utill.encryptMD5(password);
+		
+		loginVO.setMember_password(password);
+		
 		int rst = sqlSession.selectOne("login.loginChk", loginVO);
 		ArrayList<String> LoginResultInfo = new ArrayList<String>();
 		
@@ -114,6 +124,11 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 		System.out.println("## Logout ##");
 		System.out.println(loginVO.getMember_token());
 		String result = "";
+		
+		if ( loginVO.getMember_token() == null || loginVO.getMember_token() == "") {
+			result = "100";
+			return result;
+		}
 		
 		int tokenCount = sqlSession.selectOne("login.getTokenCount", loginVO);
 		

@@ -58,5 +58,6 @@ public class loginVO {
 	public void setMember_level(int member_level) {
 		this.member_level = member_level;
 	}
+
 	
 }

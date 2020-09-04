@@ -6,3 +6,6 @@
 1598943936109	Encapsulate field 'member_num'
 1598943945232	Encapsulate field 'member_token'
 1599123131456	Encapsulate field 'member_level'
+1599204407451	Rename compilation unit 'SHA256Utill.java'
+1599204463732	Encapsulate field 'salt'
+1599204985980	Rename compilation unit 'SHA256Util.java'
