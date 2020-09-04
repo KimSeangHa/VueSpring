@@ -59,6 +59,11 @@ const requireAuth = () => (from, to, next) => {
     path: '/Diagram',
     name: 'Diagram',
     component: () => import('@/views/Diagram.vue')
+  },
+  {
+    path: '/Explan',
+    name: 'Explan',
+    component: () => import('@/views/Explan.vue')
   }
 ]
 

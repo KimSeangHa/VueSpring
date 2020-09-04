@@ -3,7 +3,7 @@
         <div class="header-form">
             <ul>
                 <li><router-link to="/Diagram">구조</router-link></li>
-                <li><router-link to="/MemoApp">설명</router-link></li>
+                <li><router-link to="/Explan">설명</router-link></li>
                 <li><router-link to="/APIManage">API 관리</router-link></li>
                 <li><router-link to="/MemoApp">MemoApp</router-link></li>
                 <li><router-link to="/MemoApp">추가예정</router-link></li> 
