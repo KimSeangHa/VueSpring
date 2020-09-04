@@ -1,0 +1,6 @@
+SELECT CHAT_ID
+  FROM MEMO A
+     , BOT_INFO B
+ WHERE A.MEMBER_NUM = B.MEMBER_NUM
+   AND curDate = date_format(NOW(), '%Y-%m-%d')
+ORDER BY B.MEMBER_NUM
