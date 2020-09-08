@@ -29,7 +29,7 @@ public class botController {
 		private SqlSession sqlSession;
 		
 		// BOT INFO 등록
-		@CrossOrigin(origins = "http://localhost:8080")
+		@CrossOrigin(origins = "*")
 		@RequestMapping(value = "/RegisterBotInfo", method = RequestMethod.POST)
 		@ResponseBody
 		public String registerBotInfo(Locale locale, Model model, @RequestBody botVO botVO, HttpServletRequest request) {
@@ -73,7 +73,7 @@ public class botController {
 		}
 		
 		// BOT INFO 가져오기
-		@CrossOrigin(origins = "http://localhost:8080")
+		@CrossOrigin(origins = "*")
 		@RequestMapping(value = "/getBotInfo", method = RequestMethod.POST)
 		@ResponseBody
 		public HashMap<String, String> getBotInfo(Locale locale, Model model, @RequestBody botVO botVO, HttpServletRequest request) {
@@ -123,7 +123,7 @@ public class botController {
 		}
 		
 		// BOT INFO 수정
-		@CrossOrigin(origins = "http://localhost:8080")
+		@CrossOrigin(origins = "*")
 		@RequestMapping(value = "/ModifyBotInfo", method = RequestMethod.POST)
 		@ResponseBody
 		public String ModifyBotInfo(Locale locale, Model model, @RequestBody botVO botVO, HttpServletRequest request) {
@@ -147,6 +147,18 @@ public class botController {
 				String getToken = lvo.getMember_token();
 				if (!loginVO.getMember_token().equals(getToken)) {
 					result = "100";
+					return result;
+				}
+				
+				if (botVO.getChat_id() == null || botVO.getChat_id() == "") {
+					result = "1";
+					return result;
+				}
+				
+				// 채팅방 아이디 중복 체크
+				int chat_id_check = sqlSession.selectOne("bot.ChatIdCheck", botVO);
+				if ( chat_id_check > 0 ) {
+					result = "2";
 					return result;
 				}
 				

@@ -13,6 +13,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import com.spring.webservice.vo.botVO;
+import com.spring.webservice.vo.loginVO;
+
 public class TelegramBot extends TelegramLongPollingBot {
 	
    	@Autowired
@@ -45,14 +48,15 @@ public class TelegramBot extends TelegramLongPollingBot {
 		}
     	
 		
-		String Register = getText.substring(0, 3);
+		String Func = getText.substring(0, 3);
 		String helper = getText.substring(0, 4);
 		
 		//등록하기 
-		if ( Register.equals("REG")) {
-			String[] InsertData = getText.split("@");
+		if ( Func.equals("REG")) {
+			System.out.println("Register Bot Info");
+			String[] InsertData = getText.split("#");
 			String MEMBER_ID = InsertData[1];
-			
+		
 			int InsertResult = InsertBotInfo(MEMBER_ID, CHAT_ID);
 			
 			if ( InsertResult == 1 ) {
@@ -85,7 +89,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         	message.setText("안녕하세요.\n여러분의 스케줄을 도와줄 스케줄러 봇입니다. \n하루에 아침, 점심, 저녁으로 총 3번 등록하신 일정을 보내드리고 있습니다. "
         			+ "\n그 외에도 저에게 오늘의 날짜(/2020903) 이렇게 메세지를 보내주시면 바쁜 여러분의 일정을 보내드립니다."
         			+ "\n\n그 외의 명령어는 아래와 같습니다."
-        			+ "\n/REG@id를 입력하시면 채팅방 아이디를 등록할 수 있어요. \n그러나 이것은 관리자와 꼭 함께해주세요.\n한 계정에서 하나의 채팅방만 설정할 수 있습니다.\n꼬여버리면 제가 머리가 너무 아프거든요."
+        			+ "\n/REG#id를 입력하시면 채팅방 아이디를 등록할 수 있어요. \n그러나 이것은 관리자와 꼭 함께해주세요.\n한 계정에서 하나의 채팅방만 설정할 수 있습니다.\n꼬여버리면 제가 머리가 너무 아프거든요."
         			+ "\n\n제가 아직 어려서 머리가 나빠요. "
         			+ "\n생각하는 시간이 조금 걸리더라도 이해해주세요."
         			+ "\n그럼 이만 !");
@@ -230,6 +234,69 @@ public class TelegramBot extends TelegramLongPollingBot {
    
    // Insert Data
    public int InsertBotInfo(String MEMBER_ID, long CHAT_ID) {
+	  
+	   SimpleDateFormat dateformat = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+	   
+	   Date time = new Date();
+	   String CurrentTime = dateformat.format(time);
+	   
+	   System.out.println("###" + CurrentTime);
+	   
+		/* DB Connection */
+		String sqlHost = "jdbc:mysql://localhost:3306/webservice?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC";
+		String user = "root";
+		String pw = "root";
+		
+		try {
+		    String myDriver = "com.mysql.cj.jdbc.Driver";
+		    Class.forName(myDriver);
+		    Connection conn = DriverManager.getConnection(sqlHost, user, pw);
+		    
+			String query = "SELECT "
+				+ "MEMBER_NUM "
+				+ "FROM MEMBER "
+				+ "WHERE MEMBER_ID=" + "\"" + MEMBER_ID + "\"";
+		
+		 	Statement st = conn.createStatement();
+		 	ResultSet rs = st.executeQuery(query);
+			 
+			System.out.println("InsertBotInfo - Select");
+			System.out.println(query);
+			 
+			 if(rs.isBeforeFirst()) {
+			      while (rs.next()) {
+			        int MEMBER_NUM = rs.getInt("MEMBER_NUM");
+			        
+			        String InsertQuery = "INSERT INTO BOT_INFO (MEMBER_NUM, CHAT_ID, BOT_REGDATE)"
+			        		+ "VALUES ("
+			        		+ MEMBER_NUM 
+			        		+ "," + "\"" + CHAT_ID + "\""
+			    			+ "," + "\"" + CurrentTime + "\""
+			    			+ ")";
+			        
+		    	 	int InsertResult = st.executeUpdate(InsertQuery);
+		    	 	
+					System.out.println("InsertBotInfo - Insert");
+					System.out.println(InsertQuery);
+					
+			        return InsertResult;
+	
+			      }
+			 } else {
+			   return 0;
+		     }
+		     
+			 st.close();
+	   } catch (Exception e) {
+	     System.err.println("Got an exception! ");
+	     System.err.println(e.getMessage());
+       }
+	  return 0;
+   }
+   
+   
+   // Insert Memo
+   public int InsertMemo(String MEMBER_ID, long CHAT_ID, String Content) {
 	  
 	   SimpleDateFormat dateformat = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
 	   

@@ -31,7 +31,7 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	private SqlSession sqlSession;
 	
 	// 회원 가입
-	@CrossOrigin(origins = "http://localhost:8080")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/InsertMember", method = RequestMethod.POST)
 	@ResponseBody
 	public String InsertMember(Locale locale, Model model, @RequestBody loginVO loginVO, HttpServletRequest request) {
@@ -57,7 +57,7 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	}
 	
 	// ID 중복체크
-	@CrossOrigin(origins = "http://localhost:8080")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/MemberChk", method = RequestMethod.POST)
 	@ResponseBody
 	public String MemberChk(Locale locale, Model model, @RequestBody loginVO loginVO, HttpServletRequest request) {
@@ -77,7 +77,7 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	}
 	
 	// 로그인
-	@CrossOrigin(origins = "http://localhost:8080")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/Login", method = RequestMethod.POST)
 	@ResponseBody
 	public List<String> LoginChk(Locale locale, Model model, @RequestBody loginVO loginVO, HttpServletRequest request) {
@@ -117,7 +117,7 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	}
 	
 	// 로그아웃
-	@CrossOrigin(origins = "http://localhost:8080")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/Logout", method = RequestMethod.POST)
 	@ResponseBody
 	public String Logout(Locale locale, Model model, @RequestBody loginVO loginVO, HttpServletRequest request) {

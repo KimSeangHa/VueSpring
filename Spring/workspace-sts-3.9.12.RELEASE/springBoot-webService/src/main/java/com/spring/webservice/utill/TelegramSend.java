@@ -36,7 +36,7 @@ public class TelegramSend {
 			String line; 
 			while((line = in.readLine()) != null) { // response를 차례대로 출력 
 				System.out.println(line); 
-			} 
+			} 			
 		} catch(Exception e) { 
 			e.printStackTrace(); 
 		} finally { 

@@ -107,3 +107,4 @@
 0:0:0:0:0:0:0:1 - - [04/Sep/2020:16:50:23 +0900] "POST /webservice/Login HTTP/1.1" 200 30
 0:0:0:0:0:0:0:1 - - [04/Sep/2020:16:50:24 +0900] "OPTIONS /webservice/getMemoList HTTP/1.1" 200 -
 0:0:0:0:0:0:0:1 - - [04/Sep/2020:16:50:24 +0900] "POST /webservice/getMemoList HTTP/1.1" 200 547
+127.0.0.1 - - [04/Sep/2020:20:28:44 +0900] "GET / HTTP/1.1" 404 804

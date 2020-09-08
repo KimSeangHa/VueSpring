@@ -12,7 +12,6 @@
 <fullyQualifiedTypeName name="org.telegram.telegrambots.meta.api.objects.Message"/>
 <fullyQualifiedTypeName name="org.telegram.telegrambots.meta.api.methods.send.SendMessage"/>
 <fullyQualifiedTypeName name="org.telegram.telegrambots.meta.exceptions.TelegramApiException"/>
-<fullyQualifiedTypeName name="com.spring.webservice.utill.TelegramBot"/>
 <fullyQualifiedTypeName name="com.spring.webservice.utill.Telegram"/>
 <fullyQualifiedTypeName name="com.spring.webservice.utill.TelegramSend"/>
 <fullyQualifiedTypeName name="java.net.URLConnection"/>
@@ -35,4 +34,5 @@
 <fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="com.spring.webservice.utill.SHA256Util"/>
 <fullyQualifiedTypeName name="com.spring.webservice.utill.MD5Utill"/>
+<fullyQualifiedTypeName name="com.spring.webservice.utill.TelegramBot"/>
 </qualifiedTypeNameHistroy>

@@ -31,7 +31,7 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	private SqlSession sqlSession;
 	
 	// 메모 등록
-	@CrossOrigin(origins = "http://localhost:8080")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/addMemo", method = RequestMethod.POST)
 	@ResponseBody
 	public String addMemo(Locale locale, Model model, @RequestBody memoVO memoVO, HttpServletRequest request) {
@@ -95,7 +95,7 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	}
 	
 	// 메모 삭제
-	@CrossOrigin(origins = "http://localhost:8080")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/deleteMemo", method = RequestMethod.POST)
 	@ResponseBody
 	public String deleteMemo(Locale locale, Model model, @RequestBody memoVO memoVO) {
@@ -141,7 +141,7 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	}
 	
 	// 메모 수정
-	@CrossOrigin(origins = "http://localhost:8080")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/rewriteMemo", method = RequestMethod.POST)
 	@ResponseBody
 	public String rewriteMemo(Locale locale, Model model, @RequestBody memoVO memoVO) {
@@ -198,7 +198,7 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	}
 	
 	// 메모 리스트 조회
-	@CrossOrigin(origins = "http://localhost:8080")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/getMemoList", method = RequestMethod.POST)
 	@ResponseBody
 	public List<memoVO> getListMemo(Locale locale, Model model, @RequestBody memoVO memoVO) {
@@ -208,6 +208,11 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 		
 		loginVO loginVO = new loginVO();
 		loginVO.setMember_token(memoVO.getMember_token());
+		
+		if (memoVO.getMember_token().equals("")) {
+			return null;
+		}
+		
 		int tokenCount = sqlSession.selectOne("login.getTokenCount", loginVO);
 		
 		// 로그인체크
@@ -238,7 +243,7 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	}
 	
 	// 텔레그램 봇 생성
-	@CrossOrigin(origins = "http://localhost:8080")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/Makebot", method = RequestMethod.POST)
 	@ResponseBody
 	public String Makebot(Locale locale, Model model, @RequestBody memoVO memoVO) {

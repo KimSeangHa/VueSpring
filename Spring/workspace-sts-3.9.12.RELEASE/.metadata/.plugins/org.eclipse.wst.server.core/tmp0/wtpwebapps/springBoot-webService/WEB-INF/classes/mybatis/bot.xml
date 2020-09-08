@@ -27,4 +27,10 @@
 		   SET CHAT_ID = #{chat_id}
 		 WHERE MEMBER_NUM = #{member_num}
 	</update>
+	
+	<select id="ChatIdCheck" resultType="int" parameterType="com.spring.webservice.vo.botVO">
+		SELECT COUNT(*)
+		  FROM BOT_INFO
+	     WHERE CHAT_ID = #{chat_id}
+	</select>
  </mapper>
