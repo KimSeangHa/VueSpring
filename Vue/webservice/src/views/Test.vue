@@ -11,7 +11,7 @@
 export default {
     methods: {
         getData () {
-            this.$http.get('http://localhost:9090/webservice/dbtest', {
+            this.$http.get('http://222.99.179.54:9090/webservice/dbtest', {
             })
             .then((result) => {
                 console.log(result)

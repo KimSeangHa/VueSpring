@@ -17,7 +17,7 @@ export default {
     state: {
       loginResult: '',
       loginToken: ''
-    },
+    },  
   
     /**
      * component의 computed와 유사한 역할을 합니다.
@@ -44,7 +44,7 @@ export default {
      */
     Login (state, payload) {
       console.log('## Login ##')
-      axios.post('http://localhost:9090/webservice/Login', { 
+      axios.post('http://222.99.179.54:9090/webservice/Login', { 
         member_id: payload.id,
         member_password: payload.password
       })
@@ -84,7 +84,7 @@ export default {
     Logout (state, payload) {
       console.log('## Logout ##')
       console.log(payload.MemberToken)
-      axios.post('http://localhost:9090/webservice/Logout', { 
+      axios.post('http://222.99.179.54:9090/webservice/Logout', { 
           member_token: payload.MemberToken,
         })
         .then((result) => {

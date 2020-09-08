@@ -13,9 +13,13 @@
                     class="memo-content"
                     @keyup.enter.exact="enterFunc"
                     @keydown.enter.shift.exact="enterFunc"
+                    :maxlength="contentMax"
                 >
                 </textarea>
                 <br>
+                <div style="width:100%; text-align:right;">
+                    <div class="limitText" >500글자 이하로 작성해주세요.</div>
+                </div>
                 <div style="text-align: right;">
                     <div class="button_wrap">
                         <button class="deleteMemoBtn" @click="deleteMemo(item, index)">삭제</button>
@@ -36,7 +40,8 @@ export default {
     name: 'MemoList',
     data: function() {
         return {
-            content : ''
+            content : '',
+            contentMax : 500
         }
     },
     created () {
@@ -77,7 +82,6 @@ export default {
             this.$store.commit('memo/rewriteMemo', { content, index, item, modifyDate, member_token})
         },
         enterFunc () {
-            console.log('aaa')
             const enter = '\n'
             this.content = this.content + enter
             console.log(this.content)
@@ -151,4 +155,6 @@ export default {
     text-align: right;
     width: 100px;
 }
+
+
 </style>

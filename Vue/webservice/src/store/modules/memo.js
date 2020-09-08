@@ -43,7 +43,7 @@ export default {
      * @param {array} payload
      */
      getMemoList (state, member_token) {
-        axios.post('http://localhost:9090/webservice/getMemoList', {
+        axios.post('http://222.99.179.54:9090/webservice/getMemoList', {
           member_token: member_token
         })
         .then((result) => {
@@ -75,7 +75,7 @@ export default {
         const memoData = { content: payload.content, id: payload.id, regDate: payload.regDate }
         state.memoList.push(memoData)
         console.log(payload.member_token)
-        axios.post('http://localhost:9090/webservice/addMemo', { 
+        axios.post('http://222.99.179.54:9090/webservice/addMemo', { 
            content: payload.content,
            id: payload.id,
            regDate: payload.regDate,
@@ -109,7 +109,7 @@ export default {
          console.log('## DeleteMemo ##')
          state.memoList.splice(payload.index, 1)
          
-         axios.post('http://localhost:9090/webservice/deleteMemo', { 
+         axios.post('http://222.99.179.54:9090/webservice/deleteMemo', { 
             id: payload.item.id,
             member_token: payload.member_token
          })
@@ -138,7 +138,7 @@ export default {
         state.memoList[payload.index].content = payload.content
         state.memoList[payload.index].modifyDate = payload.modifyDate
 
-        axios.post('http://localhost:9090/webservice/rewriteMemo', { 
+        axios.post('http://222.99.179.54:9090/webservice/rewriteMemo', { 
             id: payload.item.id,
             content: payload.content,
             modifyDate: payload.modifyDate,

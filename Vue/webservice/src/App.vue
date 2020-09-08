@@ -4,20 +4,15 @@
       <Header />
     </div>
       <router-view class="content-form" />
-    <div id="footer">
-      <Footer />
-    </div>
   </div>
 </template>
 
 <script>
 import Header from '@/components/Layout/Header.vue'
-import Footer from '@/components/Layout/Footer.vue'
 
 export default {
   components: {
-    Header,
-    Footer
+    Header
   }
 }
 </script>

@@ -66,7 +66,7 @@ export default {
                 alert("아이디를 입력해주세요.")
                 return false
             }
-            axios.post('http://localhost:9090/webservice/MemberChk', { 
+            axios.post('http://222.99.179.54:9090/webservice/MemberChk', { 
                 member_id: this.id
             })
             .then((result) => {
@@ -98,7 +98,7 @@ export default {
 
             if (this.memberOver === true) {
                 const regDate = this.$moment().format('YYYY-MM-DD HH:mm:ss')
-                axios.post('http://localhost:9090/webservice/InsertMember', { 
+                axios.post('http://222.99.179.54:9090/webservice/InsertMember', { 
                     member_name: this.name,
                     member_id: this.id,
                     member_password: this.password,

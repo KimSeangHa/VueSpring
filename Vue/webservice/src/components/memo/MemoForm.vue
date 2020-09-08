@@ -11,8 +11,13 @@
                 @keydown.enter.exact.prevent
                 @keyup.enter.exact="enterFunc"
                 @keydown.enter.shift.exact="enterFunc"
+                :maxlength="contentMax"
             >
             </textarea>
+            <div style="width:100%; text-align:right;">
+                <div class="limitText" >500글자 이하로 작성해주세요.</div>
+                <div class="limitTextView" >{{ contentMax }} / <span style="color:red">{{ contentMax - content.length }}</span></div>
+            </div>
             <br>
             <div style="text-align: right;">
                 <button button class="addMemoBtn" @click="addMemo">등록</button>
@@ -29,6 +34,7 @@ export default {
     data: function () {
         return {
             content: '',
+            contentMax: 500
         }
     },
     methods: {
@@ -50,7 +56,7 @@ export default {
             this.reset()
         },
         Makebot () {
-            axios.post('http://localhost:9090/webservice/Makebot', { 
+            axios.post('http://222.99.179.54:9090/webservice/Makebot', { 
                 member_token: this.member_token
             })
             .then((result) => {
@@ -138,5 +144,18 @@ export default {
 .addMemoBtn:hover {
     background-color : #172d58;
     color:#fff;
+}
+.limitText {
+    display:inline-block;
+    font-size:12px;
+    color:#666;
+    width: 200px;
+    margin-right: 20px;
+}
+
+.limitTextView {
+    display:inline-block;
+    font-size:12px;
+    color:#666;
 }
 </style>

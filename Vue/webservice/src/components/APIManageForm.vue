@@ -43,7 +43,7 @@ export default {
     methods: {
         getBotInfo () {
             console.log("## getBotInfo ##")
-            axios.post('http://localhost:9090/webservice/getBotInfo', { 
+            axios.post('http://222.99.179.54:9090/webservice/getBotInfo', { 
                 member_token: this.memberToken
             })
             .then((result) => {
@@ -68,7 +68,7 @@ export default {
             console.log("## Register Bot Info ##")
             const regDate = this.$moment().format('YYYY-MM-DD HH:mm:ss')
         
-            axios.post('http://localhost:9090/webservice/RegisterBotInfo', { 
+            axios.post('http://222.99.179.54:9090/webservice/RegisterBotInfo', { 
                 member_token: this.memberToken,
                 chat_id: this.chat_id,
                 bot_regdate: regDate
@@ -90,8 +90,13 @@ export default {
             }) 
         },
         ModifyBotInfo () {
+            if (this.chat_id == "") {
+                alert("채팅방 아이디를 입력해주세요.")
+                return
+            }
+
             console.log("## Modify Bot Info ##")
-            axios.post('http://localhost:9090/webservice/ModifyBotInfo', { 
+            axios.post('http://222.99.179.54:9090/webservice/ModifyBotInfo', { 
                 member_token: this.memberToken,
                 chat_id: this.chat_id
             })
@@ -100,6 +105,8 @@ export default {
                     alert("텔레그램 봇 정보 수정을 완료하였습니다.")
                 } else if (result.data === 100) {
                     this.$store.commit('login/Logout', { MemberToken: this.memberToken })
+                } else if (result.data === 2) {
+                    alert("이미 사용중인 Chat ID 입니다. \nChat ID는 중복이 될 수 없습니다.")
                 } else {
                     alert("텔레그램 봇 정보 수정을 실패하였습니다. 관리자에게 문의해주세요.")
                     return false
