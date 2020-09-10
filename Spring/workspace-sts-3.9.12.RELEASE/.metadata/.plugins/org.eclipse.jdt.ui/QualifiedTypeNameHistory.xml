@@ -16,7 +16,6 @@
 <fullyQualifiedTypeName name="com.spring.webservice.utill.TelegramSend"/>
 <fullyQualifiedTypeName name="java.net.URLConnection"/>
 <fullyQualifiedTypeName name="java.io.BufferedInputStream"/>
-<fullyQualifiedTypeName name="java.net.URL"/>
 <fullyQualifiedTypeName name="org.glassfish.jersey.message.internal.StringBuilderUtils"/>
 <fullyQualifiedTypeName name="java.io.InputStream"/>
 <fullyQualifiedTypeName name="java.net.URLEncoder"/>
@@ -35,4 +34,6 @@
 <fullyQualifiedTypeName name="com.spring.webservice.utill.SHA256Util"/>
 <fullyQualifiedTypeName name="com.spring.webservice.utill.MD5Utill"/>
 <fullyQualifiedTypeName name="com.spring.webservice.utill.TelegramBot"/>
+<fullyQualifiedTypeName name="java.net.URL"/>
+<fullyQualifiedTypeName name="com.spring.webservice.utill.TelegramDeleteWebhook"/>
 </qualifiedTypeNameHistroy>

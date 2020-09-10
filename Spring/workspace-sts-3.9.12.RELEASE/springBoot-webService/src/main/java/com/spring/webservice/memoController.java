@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.webservice.utill.Telegram;
+import com.spring.webservice.utill.TelegramDeleteWebhook;
 import com.spring.webservice.utill.TelegramSend;
 import com.spring.webservice.vo.botVO;
 import com.spring.webservice.vo.loginVO;
@@ -35,10 +36,8 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	@RequestMapping(value = "/addMemo", method = RequestMethod.POST)
 	@ResponseBody
 	public String addMemo(Locale locale, Model model, @RequestBody memoVO memoVO, HttpServletRequest request) {
-		System.out.println("## AddMemo ##");
-		System.out.println(memoVO.getId());
-		System.out.println(memoVO.getContent());
-		System.out.println(memoVO.getMember_token());
+		logger.info("## AddMemo ##");
+		logger.info(memoVO.getMember_token());
 		
 		
 		loginVO loginVO = new loginVO();
@@ -76,11 +75,6 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 				return result;
 			}
 			
-			System.out.println("########");
-			System.out.println(bot.getBot_token());
-			System.out.println(bot.getChat_id());
-			
-			
 			if ( rst > 0) {
 				result = "0";
 				TelegramSend.SendMessage(memoVO.getContent(), bot.getBot_token(), bot.getChat_id());
@@ -99,9 +93,9 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	@RequestMapping(value = "/deleteMemo", method = RequestMethod.POST)
 	@ResponseBody
 	public String deleteMemo(Locale locale, Model model, @RequestBody memoVO memoVO) {
-		System.out.println("## DeleteMemo ## ");
-		System.out.println(memoVO.getId());
-		System.out.println(memoVO.getMember_token());
+		logger.info("## DeleteMemo ## ");
+		logger.info(memoVO.getId());
+		logger.info(memoVO.getMember_token());
 		
 		
 		loginVO loginVO = new loginVO();
@@ -145,10 +139,10 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	@RequestMapping(value = "/rewriteMemo", method = RequestMethod.POST)
 	@ResponseBody
 	public String rewriteMemo(Locale locale, Model model, @RequestBody memoVO memoVO) {
-		System.out.println("## RewriteMemo ## ");
-		System.out.println(memoVO.getId());
-		System.out.println(memoVO.getModifyDate());
-		System.out.println(memoVO.getMember_token());
+		logger.info("## RewriteMemo ## ");
+		logger.info(memoVO.getId());
+		logger.info(memoVO.getModifyDate());
+		logger.info(memoVO.getMember_token());
 		
 		
 		loginVO loginVO = new loginVO();
@@ -202,8 +196,8 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	@RequestMapping(value = "/getMemoList", method = RequestMethod.POST)
 	@ResponseBody
 	public List<memoVO> getListMemo(Locale locale, Model model, @RequestBody memoVO memoVO) {
-		System.out.println("## getListMemo ## ");
-		System.out.println(memoVO.getMember_token());
+		logger.info("## getListMemo ## ");
+		logger.info(memoVO.getMember_token());
 		
 		
 		loginVO loginVO = new loginVO();
@@ -247,8 +241,8 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	@RequestMapping(value = "/Makebot", method = RequestMethod.POST)
 	@ResponseBody
 	public String Makebot(Locale locale, Model model, @RequestBody memoVO memoVO) {
-		System.out.println("## Make Bot ## ");
-		System.out.println(memoVO.getMember_token());
+		logger.info("## Make Bot ## ");
+		logger.info(memoVO.getMember_token());
 		
 		loginVO loginVO = new loginVO();
 		loginVO.setMember_token(memoVO.getMember_token());
@@ -272,6 +266,7 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 			
 			if (lvo.getMember_level() == 3) {
 				Telegram.makeBot();
+				TelegramDeleteWebhook.deleteWebhook();
 				result = "0";
 				return result;
 			} else {

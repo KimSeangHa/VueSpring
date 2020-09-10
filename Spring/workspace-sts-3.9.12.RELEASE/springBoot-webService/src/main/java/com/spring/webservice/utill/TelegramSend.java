@@ -5,12 +5,16 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TelegramSend {
+	private final static Logger logger = Logger.getGlobal();
+	
 	public static void SendMessage(String Content, String AUTH_KEY, String CHAT_ID){
 		
-		System.out.println("@@@@@@@@@@");
-		System.out.println(Content);
+		logger.info("SendMessage");
+		logger.info(Content);
 		
 	    String BOT_NAME = "Kim_Scheduler_Bot"; //Bot Name
 	    // String AUTH_KEY = "1334891991:AAGkrXOd3oPP92tQzRclNY4nmxwuvMPIUqM"; //Bot Auth-Key

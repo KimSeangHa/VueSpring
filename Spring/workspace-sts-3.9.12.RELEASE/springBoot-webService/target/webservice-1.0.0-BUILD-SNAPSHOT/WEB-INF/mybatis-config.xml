@@ -6,6 +6,8 @@
     <mappers>
     	<!-- 테스트 -->
         <mapper resource="/mybatis/test.xml" />
-        
+        <mapper resource="/mybatis/memo.xml" />
+        <mapper resource="/mybatis/login.xml" />
+        <mapper resource="/mybatis/bot.xml" />
     </mappers >   
 </configuration>

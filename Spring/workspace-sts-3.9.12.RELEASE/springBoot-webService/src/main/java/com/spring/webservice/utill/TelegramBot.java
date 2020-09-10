@@ -16,7 +16,12 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import com.spring.webservice.vo.botVO;
 import com.spring.webservice.vo.loginVO;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class TelegramBot extends TelegramLongPollingBot {
+	
+	private final static Logger logger = Logger.getGlobal();
 	
    	@Autowired
 	private SqlSession sqlSession;
@@ -30,7 +35,7 @@ public class TelegramBot extends TelegramLongPollingBot {
    public void onUpdateReceived(Update update) {
     	
     	System.out.println(update);
-    	System.out.println(update.getMessage().getText());
+    	logger.info(update.getMessage().getText());
     	
     	String getOriginText = update.getMessage().getText();
     	String getText = getOriginText.replaceAll("/", "");
@@ -53,7 +58,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 		
 		//등록하기 
 		if ( Func.equals("REG")) {
-			System.out.println("Register Bot Info");
+			logger.info("Register Bot Info");
 			String[] InsertData = getText.split("#");
 			String MEMBER_ID = InsertData[1];
 		
@@ -139,8 +144,8 @@ public class TelegramBot extends TelegramLongPollingBot {
 	          
 	          ResultSet rs = st.executeQuery(query);
 	          
-	          System.out.println("SEND MESSAGE");
-	          System.out.println(query);
+	          logger.info("SEND MESSAGE");
+	          logger.info(query);
 	          
 	          if(rs.isBeforeFirst()) {
 		          while (rs.next()) {
@@ -240,7 +245,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 	   Date time = new Date();
 	   String CurrentTime = dateformat.format(time);
 	   
-	   System.out.println("###" + CurrentTime);
+	   logger.info("###" + CurrentTime);
 	   
 		/* DB Connection */
 		String sqlHost = "jdbc:mysql://localhost:3306/webservice?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC";
@@ -260,8 +265,8 @@ public class TelegramBot extends TelegramLongPollingBot {
 		 	Statement st = conn.createStatement();
 		 	ResultSet rs = st.executeQuery(query);
 			 
-			System.out.println("InsertBotInfo - Select");
-			System.out.println(query);
+		 	logger.info("InsertBotInfo - Select");
+		 	logger.info(query);
 			 
 			 if(rs.isBeforeFirst()) {
 			      while (rs.next()) {
@@ -276,71 +281,8 @@ public class TelegramBot extends TelegramLongPollingBot {
 			        
 		    	 	int InsertResult = st.executeUpdate(InsertQuery);
 		    	 	
-					System.out.println("InsertBotInfo - Insert");
-					System.out.println(InsertQuery);
-					
-			        return InsertResult;
-	
-			      }
-			 } else {
-			   return 0;
-		     }
-		     
-			 st.close();
-	   } catch (Exception e) {
-	     System.err.println("Got an exception! ");
-	     System.err.println(e.getMessage());
-       }
-	  return 0;
-   }
-   
-   
-   // Insert Memo
-   public int InsertMemo(String MEMBER_ID, long CHAT_ID, String Content) {
-	  
-	   SimpleDateFormat dateformat = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
-	   
-	   Date time = new Date();
-	   String CurrentTime = dateformat.format(time);
-	   
-	   System.out.println("###" + CurrentTime);
-	   
-		/* DB Connection */
-		String sqlHost = "jdbc:mysql://localhost:3306/webservice?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC";
-		String user = "root";
-		String pw = "root";
-		
-		try {
-		    String myDriver = "com.mysql.cj.jdbc.Driver";
-		    Class.forName(myDriver);
-		    Connection conn = DriverManager.getConnection(sqlHost, user, pw);
-		    
-			String query = "SELECT "
-				+ "MEMBER_NUM "
-				+ "FROM MEMBER "
-				+ "WHERE MEMBER_ID=" + "\"" + MEMBER_ID + "\"";
-		
-		 	Statement st = conn.createStatement();
-		 	ResultSet rs = st.executeQuery(query);
-			 
-			System.out.println("InsertBotInfo - Select");
-			System.out.println(query);
-			 
-			 if(rs.isBeforeFirst()) {
-			      while (rs.next()) {
-			        int MEMBER_NUM = rs.getInt("MEMBER_NUM");
-			        
-			        String InsertQuery = "INSERT INTO BOT_INFO (MEMBER_NUM, CHAT_ID, BOT_REGDATE)"
-			        		+ "VALUES ("
-			        		+ MEMBER_NUM 
-			        		+ "," + "\"" + CHAT_ID + "\""
-			    			+ "," + "\"" + CurrentTime + "\""
-			    			+ ")";
-			        
-		    	 	int InsertResult = st.executeUpdate(InsertQuery);
-		    	 	
-					System.out.println("InsertBotInfo - Insert");
-					System.out.println(InsertQuery);
+		    	 	logger.info("InsertBotInfo - Insert");
+		    	 	logger.info(InsertQuery);
 					
 			        return InsertResult;
 	

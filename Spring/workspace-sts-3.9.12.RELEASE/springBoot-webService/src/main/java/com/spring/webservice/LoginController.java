@@ -35,9 +35,9 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	@RequestMapping(value = "/InsertMember", method = RequestMethod.POST)
 	@ResponseBody
 	public String InsertMember(Locale locale, Model model, @RequestBody loginVO loginVO, HttpServletRequest request) {
-		System.out.println("## InsertMember ##");
-		System.out.println(loginVO.getMember_id());
-		System.out.println(loginVO.getMember_name());
+		logger.info("## InsertMember ##");
+		logger.info(loginVO.getMember_id());
+		logger.info(loginVO.getMember_name());
 
 		String password = loginVO.getMember_password();
 		password = MD5Utill.encryptMD5(password);
@@ -61,8 +61,8 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	@RequestMapping(value = "/MemberChk", method = RequestMethod.POST)
 	@ResponseBody
 	public String MemberChk(Locale locale, Model model, @RequestBody loginVO loginVO, HttpServletRequest request) {
-		System.out.println("## MemberChk ##");
-		System.out.println(loginVO.getMember_id());
+		logger.info("## MemberChk ##");
+		logger.info(loginVO.getMember_id());
 		
 		int rst = sqlSession.selectOne("login.MemberChk", loginVO);
 		String result = "";
@@ -81,8 +81,8 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	@RequestMapping(value = "/Login", method = RequestMethod.POST)
 	@ResponseBody
 	public List<String> LoginChk(Locale locale, Model model, @RequestBody loginVO loginVO, HttpServletRequest request) {
-		System.out.println("## Login ##");
-		System.out.println(loginVO.getMember_id());
+		logger.info("## Login ##");
+		logger.info(loginVO.getMember_id());
 		
 		String password = loginVO.getMember_password();
 		password = MD5Utill.encryptMD5(password);
@@ -121,8 +121,8 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	@RequestMapping(value = "/Logout", method = RequestMethod.POST)
 	@ResponseBody
 	public String Logout(Locale locale, Model model, @RequestBody loginVO loginVO, HttpServletRequest request) {
-		System.out.println("## Logout ##");
-		System.out.println(loginVO.getMember_token());
+		logger.info("## Logout ##");
+		logger.info(loginVO.getMember_token());
 		String result = "";
 		
 		if ( loginVO.getMember_token() == null || loginVO.getMember_token() == "") {

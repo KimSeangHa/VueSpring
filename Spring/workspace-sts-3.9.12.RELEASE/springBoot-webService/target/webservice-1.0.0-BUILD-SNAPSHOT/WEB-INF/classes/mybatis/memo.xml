@@ -4,9 +4,55 @@
 
 <mapper namespace="memo">
 
-	<insert id="insertMemo" parameterType="com.spring.webservice.vo.testVO">
-		INSERT
-		    INTO memo (title, content)
-		    VALUES (#{title}, #{content})
+	<insert id="addMemo" parameterType="com.spring.webservice.vo.memoVO">
+		INSERT 
+		  INTO MEMO ( CONTENT
+		            , ID
+		            , REGDATE
+		            , CURDATE
+		            , MEMBER_NUM
+		            )
+		     VALUES ( #{content}
+		            , #{id}
+		            , #{regDate}
+		            , #{curDate}
+		            , #{member_num}
+		            )
  	</insert>
+ 	
+ 	<delete id="deleteMemo" parameterType="com.spring.webservice.vo.memoVO">
+		DELETE 
+		  FROM MEMO
+		 WHERE ID = #{id}
+		   AND MEMBER_NUM = #{member_num}
+	</delete>
+	
+ 	<update id="rewriteMemo" parameterType="com.spring.webservice.vo.memoVO">
+		UPDATE MEMO
+		   SET CONTENT = #{content}
+		     , MODIFYDATE = #{modifyDate}
+		 WHERE ID = #{id}
+		   AND MEMBER_NUM = #{member_num}
+	</update>
+	
+	<select id="getMemoList" parameterType="com.spring.webservice.vo.memoVO" resultType="com.spring.webservice.vo.memoVO">
+		SELECT NUM
+		     , REPLACE(CONTENT, "%0A", "\n") AS CONTENT
+		     , ID
+		     , REGDATE
+		     , IFNULL(MODIFYDATE, "") AS MODIFYDATE
+		  FROM MEMO
+		 WHERE MEMBER_NUM = #{member_num}
+	  ORDER BY REGDATE DESC
+	</select>
+ 	
+	<select id="getMemo" resultType="com.spring.webservice.vo.memoVO">
+		SELECT NUM
+		     , CONTENT
+		     , ID
+		     , REGDATE
+		     , IFNULL(MODIFYDATE, "") AS MODIFYDATE	
+		  FROM MEMO
+		 LIMIT 1
+	</select>
  </mapper>

@@ -33,8 +33,8 @@ public class botController {
 		@RequestMapping(value = "/RegisterBotInfo", method = RequestMethod.POST)
 		@ResponseBody
 		public String registerBotInfo(Locale locale, Model model, @RequestBody botVO botVO, HttpServletRequest request) {
-			System.out.println("## get Bot Info ##");
-			System.out.println(botVO.getMember_token());
+			logger.info("## get Bot Info ##");
+			logger.info(botVO.getMember_token());
 			String result = "";
 			
 			loginVO loginVO = new loginVO();
@@ -77,8 +77,8 @@ public class botController {
 		@RequestMapping(value = "/getBotInfo", method = RequestMethod.POST)
 		@ResponseBody
 		public HashMap<String, String> getBotInfo(Locale locale, Model model, @RequestBody botVO botVO, HttpServletRequest request) {
-			System.out.println("## botInfo Register ##");
-			System.out.println(botVO.getMember_token());
+			logger.info("## botInfo Register ##");
+			logger.info(botVO.getMember_token());
 			String result = "";
 			
 			loginVO loginVO = new loginVO();
@@ -127,8 +127,8 @@ public class botController {
 		@RequestMapping(value = "/ModifyBotInfo", method = RequestMethod.POST)
 		@ResponseBody
 		public String ModifyBotInfo(Locale locale, Model model, @RequestBody botVO botVO, HttpServletRequest request) {
-			System.out.println("## Modify Bot Info ##");
-			System.out.println(botVO.getMember_token());
+			logger.info("## Modify Bot Info ##");
+			logger.info(botVO.getMember_token());
 			String result = "";
 			
 			loginVO loginVO = new loginVO();
