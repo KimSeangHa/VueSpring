@@ -8,7 +8,7 @@
                 <li><router-link to="/Explan">설명</router-link></li>
                 <li><router-link to="/APIManage">API 관리</router-link></li>
                 <li><router-link to="/MemoApp">MemoApp</router-link></li>
-                <li><router-link to="/MemoApp">추가예정</router-link></li> 
+                <li><router-link to="/PlanAdd">추가예정</router-link></li> 
             </ul>
             <ul class="menu_bottom">    
                 <li v-if="loginAuth" ><div @click="Logout">로그아웃</div></li> 

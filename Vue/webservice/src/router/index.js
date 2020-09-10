@@ -64,6 +64,11 @@ const requireAuth = () => (from, to, next) => {
     path: '/Explan',
     name: 'Explan',
     component: () => import('@/views/Explan.vue')
+  },
+  {
+    path: '/PlanAdd',
+    name: 'PlanAdd',
+    component: () => import('@/views/PlanAdd.vue')
   }
 ]
 
